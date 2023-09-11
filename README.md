@@ -11,7 +11,7 @@ TODO: add demo GIF
 - **Persistent**: Your tasks are stored securely in a `.tasks.nuon` file in your home directory.
 
 ## Installation 💽
-1. Clone the repository: `git clone https://github.com/luccahuguet/nutask`
+1. Clone the repository: `git clone https://github.com/luccahuguet/nutask.git`
 2. Add `use "path_to_repo\task.nu"` to your $nu.config-path or $nu.env-path
 3. You are done!
 
