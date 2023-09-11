@@ -21,7 +21,14 @@ export def add [
 
 # Displays the list of tasks.
 export def show [] {
-    list_tasks
+    let tasks = list_tasks | each {|in|
+        if $in.done {
+            ($in | upsert task $"(ansi green) ($in.task) (ansi reset)")
+        } else {
+            ($in | upsert task $"(ansi white) ($in.task) (ansi reset)")
+        }
+    }
+    echo $tasks
 }
 
 # Clears all completed tasks.
