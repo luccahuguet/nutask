@@ -48,6 +48,17 @@ export def done [
     show
 }
 
+
+export def edit [
+    index: int # The position of the task to switch its status
+    ...words: string # words: An array of strings that make up the task description
+] {  
+    let old_desc = list_tasks | get $index | get task
+    let updated_task = list_tasks | get $index | upsert task ($words | str join " ") 
+    list_tasks | upsert $index $updated_task | save (task_path) -f
+    show
+}
+
 # Sorts tasks by their status (done or not done).
 def sort-by-done [
 tasks: table # A table of tasks to be sorted
