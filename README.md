@@ -55,6 +55,6 @@ task clear
 
 ## Roadmap 🛣️
 - [x] Enhanced Display: Mark done tasks as green
-- Due data: Add a due date option for each task
-- Task Prioritization: Introducing priority levels for tasks.
-- Backup & Archive: Safeguard your tasks with backup and archiving features.
+- []Due data: Add a due date option for each task
+- []Task Prioritization: Introducing priority levels for tasks.
+- []Backup & Archive: Safeguard your tasks with backup and archiving features.
