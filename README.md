@@ -34,7 +34,7 @@ task done [index of the task]
 
 - **Remove your task**:
 ```nu
-task done [index of the task]
+task rm [index of the task]
 ```
 
 - **Clear (delete) completed tasks**:
