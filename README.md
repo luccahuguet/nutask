@@ -19,7 +19,7 @@ TODO: add demo GIF
 - **Add a task**:
   
 ```nu
-task add [Your task description here]
+task add [Your task description]
 ```
 
 - **List tasks**:
@@ -43,7 +43,12 @@ task done [index of the task]
 task rm [index of the task]
 ```
 
-- **Delete all completed tasks**:
+- **Edit your task**:
+```nu
+task edit [index of the task] [Your task description]
+```
+
+- **Delete all done tasks**:
 ```nu
 task clear
 ```
