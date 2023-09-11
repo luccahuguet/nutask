@@ -9,7 +9,6 @@ TODO: add demo GIF
 - **Simple Management**: Add, remove, list, and mark tasks as done seamlessly.
 - **Integrated with NuShell**: Use the power and flexibility of NuShell to manipulate tasks.
 - **Persistent**: Your tasks are stored securely in a `.tasks.nuon` file in your home directory.
-- **Easy-to-use**: Familiar command line operations for those acquainted with NuShell.
 
 ## Installation 💽
 1. Clone the repository: `git clone https://github.com/luccahuguet/nutask`
