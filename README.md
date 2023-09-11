@@ -24,7 +24,13 @@ task add [Your task description here]
 
 - **List tasks**:
 ```nu
-task add [Your task description here]
+task ls
+```
+ 
+or just 
+
+```nu
+task
 ```
 
 - **Mark your task as done**:
