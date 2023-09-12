@@ -1,6 +1,6 @@
 # Nutask: Your Shell Task Manager 🌰
 
-Manage your tasks using the power of NuShell. Nutask is an intuitive, no-frills task management system designed for those who love the command line.
+Manage your tasks using the power of NuShell. Nutask is an intuitive, straight-forward task management system designed for those who love the command line.
 
 TODO: add demo GIF
 ![Demo GIF or screenshot if available](path-to-demo-image.gif)
@@ -55,6 +55,6 @@ task clear
 
 ## Roadmap 🛣️
 - [x] Enhanced Display: Mark done tasks as green
-- []Due data: Add a due date option for each task
-- []Task Prioritization: Introducing priority levels for tasks.
-- []Backup & Archive: Safeguard your tasks with backup and archiving features.
+- [ ] Due data: Add a due date option for each task
+- [ ] Task Prioritization: Introducing priority levels for tasks.
+- [ ] Backup & Archive: Safeguard your tasks with backup and archiving features.
