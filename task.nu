@@ -28,14 +28,36 @@ export def add [
 
 # Displays the list of tasks.
 export def show [] {
-    let tasks = list_tasks | each {|in|
-        if $in.done {
-            ($in | upsert task $"(ansi green) ($in.task) (ansi reset)")
-        } else {
-            ($in | upsert task $"(ansi white) ($in.task) (ansi reset)")
-        }
+    list_tasks | each {|in|
+        ($in | upsert task $"(color_done $in.done) ($in.task) (ansi reset)")
+    } | each {|in|
+        ($in | upsert priority $"(get_priority $in.priority)")
     }
-    echo $tasks
+}
+
+def color_done [
+    done: bool
+] {
+    if $done {
+        ansi green
+    } else {
+        ansi white
+    }
+}
+
+# Colors the priority of a task, and returns the colored string.
+def get_priority [
+    priority: string
+] {
+    if $priority == "l" {
+        ($"(ansi blue) low (ansi reset)")
+    } else if $priority == "a" {
+        ($"(ansi white) average (ansi reset)")
+    } else if $priority == "h" {
+        ($"(ansi xterm_darkorange) high (ansi reset)")
+    } else if $priority == "u" {
+        ($"(ansi red) urgent (ansi reset)")
+    }
 }
 
 # Clears all completed tasks.
@@ -83,13 +105,13 @@ export def bump [
 
 export def priority [
     index: int # The index of the task to bump up
-    priority: string # The priority to set
+    p: string # The priority to set
 ] {
-    if not (list_of_priorities | contains $priority) {
-        echo "Invalid priority. Valid priorities are: (list_of_priorities | str join ", ")"
+    if not ($p in $list_of_priorities) {
+        print $"Invalid priority. Valid priorities are: ($list_of_priorities | str join ', ' )"
         return
     }
-    update_task $index priority $priority
+    update_task $index priority $p
     show
 }
 
