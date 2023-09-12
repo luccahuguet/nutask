@@ -1,21 +1,28 @@
 # module task.nu: a to do app for your favorite shell
 
 # Main function to display the list of tasks.
-export def main [] = {help}  # No parameters
+export def main [] = {help}
 
 # Alias for the show function.
-export def ls [] = {show}  # No parameters
+export def ls [] = {show}
 
 # Returns the path to the task file.
-def task_path [] = {"~/.tasks.nuon"}  # No parameters
+const task_path = "~/.tasks.nuon"
+
+const list_of_priorities = ["l" "a" "h" "u"]
 
 # Adds a new task with the given words as its description.
 export def add [
-    ...words: string # words: An array of strings that make up the task description
+    ...words: string # the task description
+    --p: string = "a" # The priority of the task
 ] {
     let task = $words | str join " "
     let date_now = date now
-    list_tasks | append { "task": $task, "done": false, "age": $date_now} | save (task_path) -f
+    if not ($p in $list_of_priorities) {
+        print $"Invalid priority. Valid priorities are: ($list_of_priorities | str join ', ' )"
+        return
+    }
+    list_tasks | append { "task": $task, "priority": $p, "done": false, "age": $date_now} | save $task_path -f
     show
 }
 
@@ -33,7 +40,7 @@ export def show [] {
 
 # Clears all completed tasks.
 export def clear [] {
-    list_tasks | where not done | save (task_path) -f
+    list_tasks | where not done | save $task_path -f
     show
 }
 
@@ -41,7 +48,7 @@ export def clear [] {
 export def rm [
     index: int # The position of the task to be removed
 ] {
-    list_tasks | drop nth $index | save (task_path) -f
+    list_tasks | drop nth $index | save $task_path -f
     show
 }
 
@@ -51,10 +58,9 @@ export def done [
 ] {
     let old_status = list_tasks | get $index | get done
     let updated_task = list_tasks | get $index | upsert done (not $old_status)
-    list_tasks | upsert $index $updated_task | sort-by-done $in | save (task_path) -f
+    list_tasks | upsert $index $updated_task | sort-by-done $in | save $task_path -f
     show
 }
-
 
 export def edit [
     index: int # The position of the task to switch its status
@@ -71,7 +77,19 @@ export def bump [
 ] {
     let bumped_task = list_tasks | get $index;
     let $first_undone_index = list_tasks | enumerate | where not $it.item.done | first | get index;
-    list_tasks | drop nth $index | insert $first_undone_index $bumped_task | save (task_path) -f
+    list_tasks | drop nth $index | insert $first_undone_index $bumped_task | save $task_path -f
+    show
+}
+
+export def priority [
+    index: int # The index of the task to bump up
+    priority: string # The priority to set
+] {
+    if not (list_of_priorities | contains $priority) {
+        echo "Invalid priority. Valid priorities are: (list_of_priorities | str join ", ")"
+        return
+    }
+    update_task $index priority $priority
     show
 }
 
@@ -96,7 +114,7 @@ def update_task [
     value: string # The new value of the property
 ] {
     let updated_task = list_tasks | get $index | upsert $property $value
-    list_tasks | upsert $index $updated_task | save (task_path) -f
+    list_tasks | upsert $index $updated_task | save $task_path -f
     show
 }
 
@@ -111,8 +129,8 @@ tasks: table # A table of tasks to be sorted
 
 # Returns the list of tasks. If the task file doesn't exist, creates a new one.
 def list_tasks [] {
-    if not ( task_path | path exists) {
-        "[]" | save (task_path)
+    if not ($task_path| path exists) {
+        "[]" | save $task_path
     }
-    open (task_path)
+    open $task_path
 }
