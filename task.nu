@@ -47,7 +47,7 @@ def get_pretty_priority [
 ] {
     match $priority {
         1 => { ($"(ansi blue) low (ansi reset)") }
-        2 => { ($"(ansi white) average (ansi reset)") }
+        2 => { ($"(ansi white) medium (ansi reset)") }
         3 => { ($"(ansi xterm_darkorange) high (ansi reset)") }
         4 => { ($"(ansi red) urgent (ansi reset)") }
         _ => { echo "Unknown priority!" }
