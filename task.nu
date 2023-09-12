@@ -1,7 +1,7 @@
 # module task.nu: a to do app for your favorite shell
 
 # Main function to display the list of tasks.
-export def main [] = {show}  # No parameters
+export def main [] = {help}  # No parameters
 
 # Alias for the show function.
 export def ls [] = {show}  # No parameters
@@ -70,10 +70,25 @@ export def edit [
 export def bump [
     index: int # The position of the task to switch its status
 ] {
-    let bumped_task = list_tasks | get $index; 
+    let bumped_task = list_tasks | get $index;
     let $first_undone_index = list_tasks | enumerate | where not $it.item.done | first | get index;
     list_tasks | drop nth $index | insert $first_undone_index $bumped_task | save (task_path) -f
     show
+}
+
+export def help [] {
+print "Nutask: a to do app for your favorite shell\n
+Available subcommands:
+  task main  - Display the list of tasks.
+  task ls    - Alias for the show function to display tasks.
+  task add   - Add a new task.
+  task show  - Display the list of tasks.
+  task clear - Clear all completed tasks.
+  task rm    - Remove a task based on its index.
+  task done  - Switch the status of a task based on its index.
+  task edit  - Edit a task description based on its index.
+  task bump  - Move a task to the top of the list based on its index.
+  task help  - Display this help message."
 }
 
 # Sorts tasks by their status (done or not done).
