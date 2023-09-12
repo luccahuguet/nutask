@@ -16,45 +16,18 @@ TODO: add demo GIF
 3. You are done!
 
 ## Usage 🛠️
-- **Add a task**:
-  
-```nu
-task add [Your task description]
-```
-
-- **List tasks**:
-```nu
-task ls
-```
- 
-or just 
-
-```nu
-task
-```
-
-- **Mark your task as done**:
-```nu
-task done [index of the task]
-```
-
-- **Remove your task**:
-```nu
-task rm [index of the task]
-```
-
-- **Edit your task**:
-```nu
-task edit [index of the task] [Your task description]
-```
-
-- **Delete all done tasks**:
-```nu
-task clear
-```
+- **Add a task**: `task add [Your task description]`
+- **List tasks**:`task ls`
+- **Mark your task as done**: `task done [index of the task]`
+- **Remove your task**: `task rm [index of the task]`
+- **Edit your task**: `task edit [index of the task] [Your task description]`
+- **Delete all done tasks**: `task clear`
 
 ## Roadmap 🛣️
 - [x] Enhanced Display: Mark done tasks as green
-- [ ] Due data: Add a due date option for each task
-- [ ] Task Prioritization: Introducing priority levels for tasks.
+- [x] Task Prioritization: Tasks can now have different levels of priority.
+- [ ] Due date: Add a due date option for each task
 - [ ] Backup & Archive: Safeguard your tasks with backup and archiving features.
+
+## Observations
+- This is not an "official" package endorsed by the Nushell project
