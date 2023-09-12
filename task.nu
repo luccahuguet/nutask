@@ -60,15 +60,14 @@ export def edit [
     index: int # The position of the task to switch its status
     ...words: string # words: An array of strings that make up the task description
 ] {
-    let old_desc = list_tasks | get $index | get task
-    let updated_task = list_tasks | get $index | upsert task ($words | str join " ")
-    list_tasks | upsert $index $updated_task | save (task_path) -f
+    let new_task = $words | str join " "
+    update_task $index task $new_task
     show
 }
 
 # Bumps a task to the top of the list.
 export def bump [
-    index: int # The position of the task to switch its status
+    index: int # The index of the task to bump up
 ] {
     let bumped_task = list_tasks | get $index;
     let $first_undone_index = list_tasks | enumerate | where not $it.item.done | first | get index;
@@ -89,6 +88,16 @@ Available subcommands:
   task edit  - Edit a task description based on its index.
   task bump  - Move a task to the top of the list based on its index.
   task help  - Display this help message."
+}
+
+def update_task [
+    index: int # The index of the task to update
+    property: string # The property to update
+    value: string # The new value of the property
+] {
+    let updated_task = list_tasks | get $index | upsert $property $value
+    list_tasks | upsert $index $updated_task | save (task_path) -f
+    show
 }
 
 # Sorts tasks by their status (done or not done).
