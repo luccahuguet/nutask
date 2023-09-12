@@ -6,23 +6,21 @@ export def main [] = {help}
 # Alias for the show function.
 export def ls [] = {show}
 
-# Returns the path to the task file.
+# Variables
 const task_path = "~/.tasks.nuon"
-
 const list_of_priorities = ["l" "a" "h" "u"]
 
-# Adds a new task with the given words as its description.
+# Adds a new task with the given description.
 export def add [
     ...words: string # the task description
     --p: string = "a" # The priority of the task
 ] {
+    check_priority $p
+
     let task = $words | str join " "
     let date_now = date now
-    if not ($p in $list_of_priorities) {
-        print $"Invalid priority. Valid priorities are: ($list_of_priorities | str join ', ' )"
-        return
-    }
-    list_tasks | append { "task": $task, "priority": $p, "done": false, "age": $date_now} | save $task_path -f
+    let $p_num = get_num_priority $p
+    list_tasks | append { "task": $task, "priority": $p_num, "done": false, "age": $date_now} | save $task_path -f
     show
 }
 
@@ -31,33 +29,66 @@ export def show [] {
     list_tasks | each {|in|
         ($in | upsert task $"(color_done $in.done) ($in.task) (ansi reset)")
     } | each {|in|
-        ($in | upsert priority $"(get_priority $in.priority)")
+        ($in | upsert priority $"(get_pretty_priority $in.priority)")
     }
 }
+
+def sort_tasks [] { sort-by done priority -r age }
 
 def color_done [
     done: bool
 ] {
-    if $done {
-        ansi green
-    } else {
-        ansi white
-    }
+    if $done { ansi green } else { ansi white }
 }
 
 # Colors the priority of a task, and returns the colored string.
-def get_priority [
+def get_pretty_priority [
+    priority: number
+] {
+    match $priority {
+        1 => { ($"(ansi blue) low (ansi reset)") }
+        2 => { ($"(ansi white) average (ansi reset)") }
+        3 => { ($"(ansi xterm_darkorange) high (ansi reset)") }
+        4 => { ($"(ansi red) urgent (ansi reset)") }
+        _ => { echo "Unknown priority!" }
+    }
+}
+
+# obtains the numeric priority of a task
+def get_num_priority [
     priority: string
 ] {
-    if $priority == "l" {
-        ($"(ansi blue) low (ansi reset)")
-    } else if $priority == "a" {
-        ($"(ansi white) average (ansi reset)")
-    } else if $priority == "h" {
-        ($"(ansi xterm_darkorange) high (ansi reset)")
-    } else if $priority == "u" {
-        ($"(ansi red) urgent (ansi reset)")
+    match $priority {
+        "l" => { 1 }
+        "a" => { 2 }
+        "h" => { 3 }
+        "u" => { 4 }
+        _ => {
+            echo "Unknown priority!"
+            return 0
+        }
     }
+}
+
+
+def check_priority [
+    priority: string
+] {
+    if not ($priority in $list_of_priorities) {
+        print $"Invalid priority. Valid priorities are: ($list_of_priorities | str join ', ' )"
+        return
+    }
+}
+
+# Sets the priority of a task based on its index.
+export def p [
+    index: int # The index of the task to bump up
+    p: string # The priority to set
+] {
+    check_priority $p
+    let $p_num = get_num_priority $p
+    update_task $index priority $p_num
+    show
 }
 
 # Clears all completed tasks.
@@ -80,10 +111,11 @@ export def done [
 ] {
     let old_status = list_tasks | get $index | get done
     let updated_task = list_tasks | get $index | upsert done (not $old_status)
-    list_tasks | upsert $index $updated_task | sort-by-done $in | save $task_path -f
+    list_tasks | upsert $index $updated_task | sort_tasks | save $task_path -f
     show
 }
 
+# Edits a task description based on its index.
 export def edit [
     index: int # The position of the task to switch its status
     ...words: string # words: An array of strings that make up the task description
@@ -103,31 +135,20 @@ export def bump [
     show
 }
 
-export def priority [
-    index: int # The index of the task to bump up
-    p: string # The priority to set
-] {
-    if not ($p in $list_of_priorities) {
-        print $"Invalid priority. Valid priorities are: ($list_of_priorities | str join ', ' )"
-        return
-    }
-    update_task $index priority $p
-    show
-}
-
+# Displays the help message.
 export def help [] {
 print "Nutask: a to do app for your favorite shell\n
 Available subcommands:
-  task main  - Display the list of tasks.
-  task ls    - Alias for the show function to display tasks.
-  task add   - Add a new task.
-  task show  - Display the list of tasks.
-  task clear - Clear all completed tasks.
-  task rm    - Remove a task based on its index.
-  task done  - Switch the status of a task based on its index.
-  task edit  - Edit a task description based on its index.
-  task bump  - Move a task to the top of the list based on its index.
-  task help  - Display this help message."
+    task main  - Display the list of tasks.
+    task ls    - Alias for the show function to display tasks.
+    task add   - Add a new task.
+    task show  - Display the list of tasks.
+    task clear - Clear all completed tasks.
+    task rm    - Remove a task based on its index.
+    task done  - Switch the status of a task based on its index.
+    task edit  - Edit a task description based on its index.
+    task bump  - Move a task to the top of the list based on its index.
+    task help  - Display this help message."
 }
 
 def update_task [
@@ -136,17 +157,8 @@ def update_task [
     value: string # The new value of the property
 ] {
     let updated_task = list_tasks | get $index | upsert $property $value
-    list_tasks | upsert $index $updated_task | save $task_path -f
+    list_tasks | upsert $index $updated_task | sort_tasks | save $task_path -f
     show
-}
-
-# Sorts tasks by their status (done or not done).
-def sort-by-done [
-tasks: table # A table of tasks to be sorted
-] {
-    let true_tasks = $tasks | where done == true
-    let false_tasks = $tasks | where done == false
-    $true_tasks | append $false_tasks
 }
 
 # Returns the list of tasks. If the task file doesn't exist, creates a new one.
@@ -156,3 +168,4 @@ def list_tasks [] {
     }
     open $task_path
 }
+
