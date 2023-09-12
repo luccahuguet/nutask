@@ -110,8 +110,7 @@ export def done [
     index: int # The position of the task to switch its status
 ] {
     let old_status = list_tasks | get $index | get done
-    let updated_task = list_tasks | get $index | upsert done (not $old_status)
-    list_tasks | upsert $index $updated_task | sort_tasks | save $task_path -f
+    update_task $index done (not $old_status)
     show
 }
 
@@ -120,7 +119,7 @@ export def edit [
     index: int # The position of the task to switch its status
     ...words: string # words: An array of strings that make up the task description
 ] {
-    let new_task = $words | str join " "
+    let new_task = $words | str join ' '
     update_task $index task $new_task
     show
 }
@@ -154,7 +153,7 @@ Available subcommands:
 def update_task [
     index: int # The index of the task to update
     property: string # The property to update
-    value: string # The new value of the property
+    value # The new value of the property
 ] {
     let updated_task = list_tasks | get $index | upsert $property $value
     list_tasks | upsert $index $updated_task | sort_tasks | save $task_path -f
