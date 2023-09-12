@@ -29,5 +29,5 @@ TODO: add demo GIF
 - [ ] Due date: Add a due date option for each task
 - [ ] Backup & Archive: Safeguard your tasks with backup and archiving features.
 
-## Observations
+## Disclaimer
 - This is not an "official" package endorsed by the Nushell project
