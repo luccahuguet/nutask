@@ -8,12 +8,12 @@ export def ls [] = {show}
 
 # Variables
 const task_path = "~/.tasks.nuon"
-const list_of_priorities = ["l" "a" "h" "u"]
+const list_of_priorities = ["l" "m" "h" "u"]
 
 # Adds a new task with the given description.
 export def add [
     ...words: string # the task description
-    --p: string = "a" # The priority of the task
+    --p: string = "m" # The priority of the task
 ] {
     check_priority $p
 
@@ -59,7 +59,7 @@ def get_num_priority [
 ] {
     match $priority {
         "l" => { 1 }
-        "a" => { 2 }
+        "m" => { 2 }
         "h" => { 3 }
         "u" => { 4 }
         _ => {
