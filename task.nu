@@ -17,19 +17,18 @@ export def add [
 ] {
     check_priority $p
 
-    let task = $words | str join " "
+    let description = $words | str join " "
     let date_now = date now
     let $p_num = get_num_priority $p
-    list_tasks | append { "task": $task, "priority": $p_num, "done": false, "age": $date_now} | save $task_path -f
+    list_tasks | append { "description": $description, "priority": $p_num, "done": false, "age": $date_now} | save $task_path -f
     show
 }
 
 # Displays the list of tasks.
 export def show [] {
-    list_tasks | each {|in|
-        ($in | upsert task $"(color_done $in.done) ($in.task) (ansi reset)")
-    } | each {|in|
-        ($in | upsert priority $"(get_pretty_priority $in.priority)")
+    list_tasks | each {|in| $in 
+        | upsert description $"(color_done $in.done) ($in.description) (ansi reset)" | 
+        | upsert priority $"(get_pretty_priority $in.priority)"
     }
 }
 
@@ -117,10 +116,10 @@ export def done [
 # Edits a task description based on its index.
 export def edit [
     index: int # The position of the task to switch its status
-    ...words: string # words: An array of strings that make up the task description
+    ...words: string # An array of strings that make up the task description
 ] {
-    let new_task = $words | str join ' '
-    update_task $index task $new_task
+    let new_description = $words | str join ' '
+    update_task $index description $new_description
     show
 }
 
