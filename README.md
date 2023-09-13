@@ -11,12 +11,13 @@ TODO: add demo GIF
 - **Persistent**: Your tasks are stored securely in a `.tasks.nuon` file in your home directory.
 
 ## Installation 💽
-1. Clone the repository: `git clone https://github.com/luccahuguet/nutask.git`
-2. Add `use "path_to_repo\task.nu"` to your $nu.config-path or $nu.env-path
-3. You are done!
+1. Make sure you have [nushell](https://www.nushell.sh) installed 
+2. Clone the repository: `git clone https://github.com/luccahuguet/nutask.git`
+3. Add `use "path_to_repo\task.nu"` to your $nu.config-path or $nu.env-path
+4. You are done! 
 
 ## Usage 🛠️
-- **Add a task**: `task add [Your task description]`
+- **Add a task, with high priority (default is medium)**: `task add [Your task description] -p h`
 - **List tasks**:`task ls`
 - **Mark your task as done**: `task done [index of the task]`
 - **Remove your task**: `task rm [index of the task]`
