@@ -16,7 +16,7 @@ TODO: add demo GIF
 3. You are done!
 
 ## Usage 🛠️
-- **Add a task**: `task add [Your task description]`
+- **Add a task, with high priority (default is medium)**: `task add [Your task description] -p h`
 - **List tasks**:`task ls`
 - **Mark your task as done**: `task done [index of the task]`
 - **Remove your task**: `task rm [index of the task]`
