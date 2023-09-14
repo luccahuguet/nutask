@@ -6,6 +6,7 @@ export def main [] = {help}
 # Aliases.
 export def ls [] = {show}
 export def p [index priority] = {priority $index $priority}
+def sort_tasks [] { sort-by done priority -r age }
 
 # Variables
 const task_path = "~/.tasks.nuon"
@@ -21,35 +22,45 @@ export def add [
     let description = $words | str join " "
     let date_now = date now
     let $p_num = get_num_priority $p
-    list_tasks | append { "description": $description, "priority": $p_num, "done": false, "age": $date_now} | save $task_path -f
+    list_tasks | append {
+     "description": $description, "priority": $p_num, "done": false, "age": $date_now
+    } | save $task_path -f
     show
 }
 
 # Displays the list of tasks.
 export def show [] {
-    list_tasks | each {|in| $in 
-        | upsert description $"(color_done $in.done) ($in.description) (ansi reset)" | 
-        | upsert priority $"(get_pretty_priority $in.priority)"
+    list_tasks | each { |task| 
+        let desc_color = color_done $task.done
+        let pri_name = get_pri_name $task.priority
+        let new_task = $task | update description ($"($desc_color)($task.description)(ansi reset)")         
+        if $task.done {
+            $new_task | update priority ($"($desc_color)($pri_name)(ansi reset)")
+        } else {
+            $new_task | update priority ($"(get_pri_color $task.priority)($pri_name)(ansi reset)")
+        }
+    }
+}
+def color_done [done: bool] { if $done { (ansi green) } else { (ansi white) } }
+
+# Colors the priority of a task, and returns the colored string.
+def get_pri_name [priority: number] {
+    match $priority {
+        1 => { "low" }
+        2 => { "medium" }
+        3 => { "high" }
+        4 => { "urgent" }
+        _ => { echo "Unknown priority!" }
     }
 }
 
-def sort_tasks [] { sort-by done priority -r age }
-
-def color_done [
-    done: bool
-] {
-    if $done { ansi green } else { ansi white }
-}
-
 # Colors the priority of a task, and returns the colored string.
-def get_pretty_priority [
-    priority: number
-] {
+def get_pri_color [priority: number] { 
     match $priority {
-        1 => { ($"(ansi blue) low (ansi reset)") }
-        2 => { ($"(ansi white) medium (ansi reset)") }
-        3 => { ($"(ansi xterm_darkorange) high (ansi reset)") }
-        4 => { ($"(ansi red) urgent (ansi reset)") }
+        1 => { (ansi blue) }
+        2 => { (ansi white) }
+        3 => { (ansi xterm_darkorange) }
+        4 => { (ansi red) }
         _ => { echo "Unknown priority!" }
     }
 }
