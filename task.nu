@@ -3,8 +3,9 @@
 # Main function to display the list of tasks.
 export def main [] = {help}
 
-# Alias for the show function.
+# Aliases.
 export def ls [] = {show}
+export def p [index priority] = {priority $index $priority}
 
 # Variables
 const task_path = "~/.tasks.nuon"
@@ -80,8 +81,8 @@ def check_priority [
 }
 
 # Sets the priority of a task based on its index.
-export def p [
-    index: int # The index of the task to bump up
+export def priority [
+    index: int # The index of the task to change priority
     p: string # The priority to set
 ] {
     check_priority $p
@@ -123,32 +124,25 @@ export def edit [
     show
 }
 
-# Bumps a task to the top of the list.
-export def bump [
-    index: int # The index of the task to bump up
-] {
-    let bumped_task = list_tasks | get $index;
-    let $first_undone_index = list_tasks | enumerate | where not $it.item.done | first | get index;
-    list_tasks | drop nth $index | insert $first_undone_index $bumped_task | save $task_path -f
-    show
-}
-
 # Displays the help message.
 export def help [] {
-print "Nutask: a to do app for your favorite shell\n
-Available subcommands:
-    task main  - Display the list of tasks.
-    task ls    - Alias for the show function to display tasks.
-    task add   - Add a new task.
-    task show  - Display the list of tasks.
-    task clear - Clear all completed tasks.
-    task rm    - Remove a task based on its index.
-    task done  - Switch the status of a task based on its index.
-    task edit  - Edit a task description based on its index.
-    task bump  - Move a task to the top of the list based on its index.
-    task help  - Display this help message."
+    print "Nutask: a to do app for your favorite shell\n"
+    print "\nAvailable subcommands:\n"
+    print "    task               - Display the list of tasks."
+    print "    task help          - Display this help message."
+    print "    task ls            - Alias for the show function to display tasks."
+    print "    task clear         - Clear all completed tasks."
+    print "    task rm <index>    - Remove a task based on its index."
+    print "    task done <index>  - Switch the status of a task based on its index."
+    print "    task add <description> [--p <priority>]   - Add a new task with a description and an optional priority (default: medium)."
+    print "    task edit <index> <description>  - Edit a task description based on its index."
+    print "    task (p)riority <index> <priority>  - Change the priority of a task based on its index."
+    print "\nPriorities:"
+    print "    l - Low"
+    print "    m - Medium"
+    print "    h - High"
+    print "    u - Urgent"
 }
-
 def update_task [
     index: int # The index of the task to update
     property: string # The property to update
