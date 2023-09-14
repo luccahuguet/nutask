@@ -33,7 +33,9 @@ export def show [] {
     list_tasks | each { |task| 
         let desc_color = color_done $task.done
         let pri_name = get_pri_name $task.priority
-        let new_task = $task | update description ($"($desc_color)($task.description)(ansi reset)")         
+        let new_task = $task 
+            | update description ($"($desc_color)($task.description)(ansi reset)")         
+            | reject done
         if $task.done {
             $new_task | update priority ($"($desc_color)($pri_name)(ansi reset)")
         } else {
