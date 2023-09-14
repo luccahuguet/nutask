@@ -16,7 +16,7 @@ export def add [
     ...words: string # the task description
     --p: string = "m" # The priority of the task
 ] {
-    check_priority $p
+    if not (is_priority_valid $p) {return}
 
     let description = $words | str join " "
     let date_now = date now
@@ -71,12 +71,14 @@ def get_num_priority [
 }
 
 
-def check_priority [
+def is_priority_valid [
     priority: string
 ] {
     if not ($priority in $list_of_priorities) {
         print $"Invalid priority. Valid priorities are: ($list_of_priorities | str join ', ' )"
-        return
+        false
+    } else {
+        true
     }
 }
 
@@ -85,14 +87,14 @@ export def priority [
     index: int # The index of the task to change priority
     p: string # The priority to set
 ] {
-    check_priority $p
+    if not (is_priority_valid $p) {return}
     let $p_num = get_num_priority $p
     update_task $index priority $p_num
     show
 }
 
 # Clears all completed tasks.
-export def clear [] {
+export def purge [] {
     list_tasks | where not done | save $task_path -f
     show
 }
@@ -131,7 +133,7 @@ export def help [] {
     print "    task               - Display the list of tasks."
     print "    task help          - Display this help message."
     print "    task ls            - Alias for the show function to display tasks."
-    print "    task clear         - Clear all completed tasks."
+    print "    task purge         - Deletes all completed tasks."
     print "    task rm <index>    - Remove a task based on its index."
     print "    task done <index>  - Switch the status of a task based on its index."
     print "    task add <description> [--p <priority>]   - Add a new task with a description and an optional priority (default: medium)."
