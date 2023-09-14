@@ -137,25 +137,26 @@ export def edit [
     show
 }
 
-# Displays the help message.
 export def help [] {
-    print "Nutask: a to do app for your favorite shell\n"
-    print "\nAvailable subcommands:\n"
-    print "    task               - Display the list of tasks."
-    print "    task help          - Display this help message."
-    print "    task ls            - Alias for the show function to display tasks."
-    print "    task purge         - Deletes all completed tasks."
-    print "    task rm <index>    - Remove a task based on its index."
-    print "    task done <index>  - Switch the status of a task based on its index."
-    print "    task add <description> [--p <priority>]   - Add a new task with a description and an optional priority (default: medium)."
-    print "    task edit <index> <description>  - Edit a task description based on its index."
-    print "    task (p)riority <index> <priority>  - Change the priority of a task based on its index."
-    print "\nPriorities:"
-    print "    l - Low"
-    print "    m - Medium"
-    print "    h - High"
-    print "    u - Urgent"
+    print $"(ansi cyan)Nutask: a to do app for your favorite shell(ansi reset)\n"
+    print $"(ansi yellow)Available subcommands:(ansi reset)"
+    print $"    (ansi green)task(ansi reset)               - Display the list of tasks."
+    print $"    (ansi green)task help(ansi reset)          - Display this help message."
+    print $"    (ansi green)task ls(ansi reset)            - Alias for the show function to display tasks."
+    print $"    (ansi green)task purge(ansi reset)         - Deletes all completed tasks."
+    print $"    (ansi green)task rm <index>(ansi reset)    - Remove a task based on its index."
+    print $"    (ansi green)task done <index>(ansi reset)  - Switch the status of a task based on its index."
+    print $"    (ansi green)task edit <index> <description>(ansi reset)  - Edit a task description based on its index."
+    print $"    (ansi green)task \(p\)riority <index> <priority>(ansi reset)  - Change the priority of a task based on its index."
+    print $"    (ansi green)task add <description> [--p <priority>](ansi reset)   
+    ╰-> Add a new task with a description and an optional priority \(default: medium\)."
+    print $"\n(ansi yellow)Priorities:(ansi reset)"
+    print $"    (ansi blue)l - Low(ansi reset)"
+    print $"    (ansi white)m - Medium(ansi reset)"
+    print $"    (ansi xterm_darkorange)h - High(ansi reset)"
+    print $"    (ansi red)u - Urgent(ansi reset)"
 }
+
 def update_task [
     index: int # The index of the task to update
     property: string # The property to update
