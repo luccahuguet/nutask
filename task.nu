@@ -22,15 +22,17 @@ export def add [
 ] {
     if not (is_priority_valid $p) {return}
 
-    let description = $words | str join " "
-    let date_now = date now
-    let $p_num = get_num_priority $p
+    let desc = $words | str join " "
+    let priority_num = get_num_priority $p
+    let done = false
+    let due = $d 
+    let age = date now
     list_tasks | append {
-     "description": $description,
-     "priority": $p_num,
-     "done": false,
-     "age": $date_now,
-     "due": $d,
+     "description": $desc,
+     "priority": $priority_num,
+     "done": $done,
+     "age": $age,
+     "due": $due,
     } | sort_save
     show
 }
@@ -38,40 +40,22 @@ export def add [
 # Displays the list of tasks.
 export def show [] {
     list_tasks | each { |task| 
-        let desc_color = color_done $task.done
-        let pri_name = get_pri_name $task.priority
-        let new_task = $task | reject done
-        if $task.done {
-            $new_task 
-                | update priority ($"($desc_color)($pri_name)(ansi reset)")
-                | update description ($"($desc_color)($task.description)(ansi reset)")         
-        } else {
-            $new_task 
-                | update priority ($"(get_pri_color $task.priority)($pri_name)(ansi reset)")
-                | update description ($"(get_pri_color $task.priority)($task.description)(ansi reset)")         
-        }
+        let done_color = get_done_color $task.done
+        let pri = get_priority $task.priority
+        let color = if $task.done {$done_color} else {$pri.color}
+        $task | reject done
+                | update priority ($"($color)($pri.name)(ansi reset)")
+                | update description ($"($color)($task.description)(ansi reset)")         
     }
 }
-def color_done [done: bool] { if $done { (ansi green) } else { (ansi white) } }
+def get_done_color [done: bool] { if $done { (ansi green) } else { (ansi white) } }
 
-# Colors the priority of a task, and returns the colored string.
-def get_pri_name [priority: number] {
+def get_priority [priority: number] {
     match $priority {
-        1 => { "low" }
-        2 => { "medium" }
-        3 => { "high" }
-        4 => { "urgent" }
-        _ => { echo "Unknown priority!" }
-    }
-}
-
-# Colors the priority of a task, and returns the colored string.
-def get_pri_color [priority: number] { 
-    match $priority {
-        1 => { (ansi blue) }
-        2 => { (ansi white) }
-        3 => { (ansi xterm_darkorange) }
-        4 => { (ansi red) }
+        1 => { {name: "low", color: (ansi blue)} }
+        2 => { {name: "medium", color: (ansi white)} }
+        3 => { {name: "high", color: (ansi xterm_darkorange)} }
+        4 => { {name: "urgent", color: (ansi red)} }
         _ => { echo "Unknown priority!" }
     }
 }
@@ -139,7 +123,7 @@ export def tick [
 }
 
 # Edits a task description based on its index.
-export def edit [
+export def desc [
     index: int # The position of the task to switch its status
     ...words: string # An array of strings that make up the task description
 ] {
@@ -166,7 +150,7 @@ export def help [] {
     print $"    (ansi green)task purge(ansi reset)         - Deletes all completed tasks."
     print $"    (ansi green)task rm <index>(ansi reset)    - Remove a task based on its index."
     print $"    (ansi green)task tick <index>(ansi reset)  - Switch the status of a task based on its index."
-    print $"    (ansi green)task edit <index> <description>(ansi reset)  - Edit a task description based on its index."
+    print $"    (ansi green)task desc <index> <description>(ansi reset)  - Edit a task description based on its index."
     print $"    (ansi green)task \(p\)riority <index> <priority>(ansi reset)  - Change the priority of a task based on its index."
     print $"    (ansi green)task add <description> [-p <priority>](ansi reset)   
     ╰-> Add a new task with a description and an optional priority \(default: medium\)."
