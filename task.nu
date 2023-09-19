@@ -17,7 +17,8 @@ def sort_save [] { sort_tasks | save $task_path -f }
 # Adds a new task with the given description.
 export def add [
     ...words: string # the task description
-    --p: string = "m" # The priority of the task
+    -p: string = "m" # The priority of the task
+    -d: string = "none" # When the task is due
 ] {
     if not (is_priority_valid $p) {return}
 
@@ -25,7 +26,11 @@ export def add [
     let date_now = date now
     let $p_num = get_num_priority $p
     list_tasks | append {
-     "description": $description, "priority": $p_num, "done": false, "age": $date_now
+     "description": $description,
+     "priority": $p_num,
+     "done": false,
+     "age": $date_now,
+     "due": $d,
     } | sort_save
     show
 }
@@ -143,6 +148,15 @@ export def edit [
     show
 }
 
+export def due [
+    index: int # The position of the task to switch its status
+    ...words: string # An array of strings that make up the task description
+] {
+    let new_due_date = $words | str join ' '
+    update_task $index due $new_due_date
+    show
+}
+
 export def help [] {
     print $"(ansi cyan)Nutask: a to do app for your favorite shell(ansi reset)\n"
     print $"(ansi yellow)Available subcommands:(ansi reset)"
@@ -154,7 +168,7 @@ export def help [] {
     print $"    (ansi green)task tick <index>(ansi reset)  - Switch the status of a task based on its index."
     print $"    (ansi green)task edit <index> <description>(ansi reset)  - Edit a task description based on its index."
     print $"    (ansi green)task \(p\)riority <index> <priority>(ansi reset)  - Change the priority of a task based on its index."
-    print $"    (ansi green)task add <description> [--p <priority>](ansi reset)   
+    print $"    (ansi green)task add <description> [-p <priority>](ansi reset)   
     ╰-> Add a new task with a description and an optional priority \(default: medium\)."
     print $"\n(ansi yellow)Priorities:(ansi reset)"
     print $"    (ansi blue)l - Low(ansi reset)"
