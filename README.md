@@ -17,12 +17,30 @@ TODO: add demo GIF
 4. You are done! 
 
 ## Usage 🛠️
-- **Add a task, with high priority (default is medium)**: `task add [Your task description] -p h`
-- **List tasks**:`task ls`
-- **Mark your task as done**: `task done [index of the task]`
-- **Remove your task**: `task rm [index of the task]`
-- **Edit your task**: `task edit [index of the task] [Your task description]`
-- **Delete all done tasks**: `task clear`
+
+### Displaying Tasks:
+- **Display the list of tasks**: `task`
+- **Alias for displaying tasks**: `task ls`
+
+### Adding and Modifying Tasks:
+- **Add a task (default priority is medium)**: `task add [Your task description]`
+- **Add a task with specific priority**: `task add [Your task description] --p [priority: l/m/h/u]`
+
+### Interacting with Tasks:
+- **Mark a task as done or not done**: `task tick [index of the task]`
+- **Edit the description of a task**: `task edit [index of the task] [Your new task description]`
+- **Change the priority of a task**: `task priority [index of the task] [priority: l/m/h/u]`
+- **Remove a specific task**: `task rm [index of the task]`
+- **Clear all completed tasks**: `task purge`
+
+### Help:
+- **Display the help message**: `task help`
+
+### Task Priorities:
+- **Low**: `l`
+- **Medium**: `m`
+- **High**: `h`
+- **Urgent**: `u`
 
 ## Roadmap 🛣️
 - [x] Enhanced Display: Mark done tasks as green
