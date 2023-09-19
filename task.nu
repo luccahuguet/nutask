@@ -3,14 +3,16 @@
 # Main function to display the list of tasks.
 export def main [] = {help}
 
+# Variables
+const task_path = "~/.tasks.nuon"
+const list_of_priorities = ["l" "m" "h" "u"]
+
 # Aliases.
 export def ls [] = {show}
 export def p [index priority] = {priority $index $priority}
 def sort_tasks [] { sort-by done priority -r age }
+def sort_save [] { sort_tasks | save $task_path -f }
 
-# Variables
-const task_path = "~/.tasks.nuon"
-const list_of_priorities = ["l" "m" "h" "u"]
 
 # Adds a new task with the given description.
 export def add [
@@ -24,7 +26,7 @@ export def add [
     let $p_num = get_num_priority $p
     list_tasks | append {
      "description": $description, "priority": $p_num, "done": false, "age": $date_now
-    } | save $task_path -f
+    } | sort_save
     show
 }
 
@@ -167,7 +169,7 @@ def update_task [
     value # The new value of the property
 ] {
     let updated_task = list_tasks | get $index | upsert $property $value
-    list_tasks | upsert $index $updated_task | sort_tasks | save $task_path -f
+    list_tasks | upsert $index $updated_task | sort_save
     show
 }
 
