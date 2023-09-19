@@ -43,9 +43,10 @@ export def show [] {
         let done_color = get_done_color $task.done
         let pri = get_priority $task.priority
         let color = if $task.done {$done_color} else {$pri.color}
-        $task | reject done
-                | update priority ($"($color)($pri.name)(ansi reset)")
-                | update description ($"($color)($task.description)(ansi reset)")         
+        $task 
+            | reject done
+            | update priority ($"($color)($pri.name)(ansi reset)")
+            | update description ($"($color)($task.description)(ansi reset)")         
     }
 }
 def get_done_color [done: bool] { if $done { (ansi green) } else { (ansi white) } }
