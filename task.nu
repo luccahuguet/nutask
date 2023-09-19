@@ -146,8 +146,8 @@ export def edit [
 export def help [] {
     print $"(ansi cyan)Nutask: a to do app for your favorite shell(ansi reset)\n"
     print $"(ansi yellow)Available subcommands:(ansi reset)"
-    print $"    (ansi green)task(ansi reset)               - Display the list of tasks."
     print $"    (ansi green)task help(ansi reset)          - Display this help message."
+    print $"    (ansi green)task(ansi reset)               - Alias to \"task help\""
     print $"    (ansi green)task ls(ansi reset)            - Alias for the show function to display tasks."
     print $"    (ansi green)task purge(ansi reset)         - Deletes all completed tasks."
     print $"    (ansi green)task rm <index>(ansi reset)    - Remove a task based on its index."

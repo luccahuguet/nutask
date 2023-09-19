@@ -19,8 +19,7 @@ TODO: add demo GIF
 ## Usage 🛠️
 
 ### Displaying Tasks:
-- **Display the list of tasks**: `task`
-- **Alias for displaying tasks**: `task ls`
+- **Display the list of tasks**: `task ls`
 
 ### Adding and Modifying Tasks:
 - **Add a task (default priority is medium)**: `task add [Your task description]`
@@ -35,6 +34,7 @@ TODO: add demo GIF
 
 ### Help:
 - **Display the help message**: `task help`
+- **Alias for displaying the help message**: `task `
 
 ### Task Priorities:
 - **Low**: `l`
