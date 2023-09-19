@@ -28,7 +28,7 @@ TODO: add demo GIF
 ### Interacting with Tasks:
 - **Mark a task as done or not done**: `task tick [index of the task]`
 - **Edit the description of a task**: `task edit [index of the task] [Your new task description]`
-- **Change the priority of a task**: `task priority [index of the task] [priority: l/m/h/u]`
+- **Change the priority of a task**: `task p [index of the task] [priority: l/m/h/u]`
 - **Remove a specific task**: `task rm [index of the task]`
 - **Clear all completed tasks**: `task purge`
 
