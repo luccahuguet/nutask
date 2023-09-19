@@ -125,7 +125,7 @@ export def rm [
 }
 
 # Switches the status of a task based on its index (marks it as done or not done).
-export def done [
+export def tick [
     index: int # The position of the task to switch its status
 ] {
     let old_status = list_tasks | get $index | get done
@@ -151,7 +151,7 @@ export def help [] {
     print $"    (ansi green)task ls(ansi reset)            - Alias for the show function to display tasks."
     print $"    (ansi green)task purge(ansi reset)         - Deletes all completed tasks."
     print $"    (ansi green)task rm <index>(ansi reset)    - Remove a task based on its index."
-    print $"    (ansi green)task done <index>(ansi reset)  - Switch the status of a task based on its index."
+    print $"    (ansi green)task tick <index>(ansi reset)  - Switch the status of a task based on its index."
     print $"    (ansi green)task edit <index> <description>(ansi reset)  - Edit a task description based on its index."
     print $"    (ansi green)task \(p\)riority <index> <priority>(ansi reset)  - Change the priority of a task based on its index."
     print $"    (ansi green)task add <description> [--p <priority>](ansi reset)   
