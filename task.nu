@@ -152,6 +152,17 @@ export def tick [
     show
 }
 
+# Bumps a task to the top of the list, within the same priority.
+export def bump [
+    index: int # The position of the task to switch its status
+] {
+    let bumped = list_tasks | get $index; 
+    let undone = list_tasks | enumerate | where not $it.item.done
+    let pri_start_idx = $undone | where $it.item.priority == $bumped.priority | first | get index
+    list_tasks | drop nth $index | insert $pri_start_idx $bumped | save $task_path -f
+    show
+}
+
 # Edits a task description based on its index.
 export def desc [
     index: int # The position of the task to switch its status
