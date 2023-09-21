@@ -37,6 +37,33 @@ export def add [
     show
 }
 
+def shorten [input] {
+    let $input = $input | date humanize
+    match $input {
+        "a minute ago"   =>  { "1m" }
+        "an hour ago"    =>  { "1h" }
+        "a day ago"      =>  { "1d" }
+        "a week ago"     =>  { "1w" }
+        "a month ago"    =>  { "1mo" }
+        "a year ago"     =>  { "1y" }
+        "eternity"   =>  { "∞" }
+        _            =>  { 
+            # For other strings with numbers
+            let num = $input | split column " " | $in.column1 | to text
+            let text = $input | split column " " | $in.column2 | to text
+            match  $text {
+                "minutes" => { $num + "m" }
+                "hours" =>  { $num + "h" }
+                "days"  =>  { $num + "d" }
+                "weeks" =>  { $num + "w" }
+                "months" =>  { $num + "mo" }
+                "years" =>  { $num + "y" }
+                _       =>  { $num }
+            }
+        }
+    }
+}
+
 # Displays the list of tasks.
 export def show [] {
     list_tasks | each { |task| 
@@ -47,6 +74,7 @@ export def show [] {
             | reject done
             | update priority ($"($color)($pri.name)(ansi reset)")
             | update description ($"($color)($task.description)(ansi reset)")         
+            | update age (shorten $task.age)         
     }
 }
 def get_done_color [done: bool] { if $done { (ansi green) } else { (ansi white) } }
