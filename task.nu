@@ -18,7 +18,7 @@ def sort_save [] { sort_tasks | save $task_path -f }
 export def add [
     ...words: string # the task description
     -p: string = "m" # The priority of the task
-    -d: string = "none" # When the task is due
+    -d: string = "-" # When the task is due
 ] {
     if not (is_priority_valid $p) {return}
 
@@ -40,6 +40,7 @@ export def add [
 def shorten [input] {
     let $input = $input | date humanize
     match $input {
+        "now"            =>  { "now" }
         "a minute ago"   =>  { "1m" }
         "an hour ago"    =>  { "1h" }
         "a day ago"      =>  { "1d" }
@@ -52,13 +53,13 @@ def shorten [input] {
             let num = $input | split column " " | $in.column1 | to text
             let text = $input | split column " " | $in.column2 | to text
             match  $text {
-                "minutes" => { $num + "m" }
-                "hours" =>  { $num + "h" }
-                "days"  =>  { $num + "d" }
-                "weeks" =>  { $num + "w" }
+                "minutes" => { $num + "m"  }
+                "hours" =>   { $num + "h"  }
+                "days"  =>   { $num + "d"  }
+                "weeks" =>   { $num + "w"  }
                 "months" =>  { $num + "mo" }
-                "years" =>  { $num + "y" }
-                _       =>  { $num }
+                "years" =>   { $num + "y"  }
+                _       =>   { $num        }
             }
         }
     }
@@ -74,7 +75,7 @@ export def show [] {
             | reject done
             | update priority ($"($color)($pri.name)(ansi reset)")
             | update description ($"($color)($task.description)(ansi reset)")         
-            | update age (shorten $task.age)         
+            | update age ($"(ansi purple)(shorten $task.age)(ansi reset)")         
     }
 }
 def get_done_color [done: bool] { if $done { (ansi green) } else { (ansi white) } }
