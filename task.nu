@@ -73,19 +73,22 @@ export def show [] {
         let color = if $task.done {$done_color} else {$pri.color}
         $task 
             | reject done
-            | update priority ($"($color)($pri.name)(ansi reset)")
-            | update description ($"($color)($task.description)(ansi reset)")         
-            | update age ($"(ansi purple)(shorten $task.age)(ansi reset)")         
+            | update priority (apply_color $color $pri.name)
+            | update description (apply_color $color $task.description)
+            | update age (apply_color "purple" (shorten $task.age))
     }
 }
-def get_done_color [done: bool] { if $done { (ansi green) } else { (ansi white) } }
+
+def get_done_color [done: bool] { if $done { "green" } else { "white" } }
+
+def apply_color [color: string, str: string] { $"(ansi $color)($str)(ansi reset)" }
 
 def get_priority [priority: number] {
     match $priority {
-        1 => { {name: "low", color: (ansi blue)} }
-        2 => { {name: "medium", color: (ansi white)} }
-        3 => { {name: "high", color: (ansi xterm_darkorange)} }
-        4 => { {name: "urgent", color: (ansi red)} }
+        1 => { {name: "low", color: "blue"} }
+        2 => { {name: "medium", color: "white"} }
+        3 => { {name: "high", color: "xterm_darkorange"} }
+        4 => { {name: "urgent", color: "red"} }
         _ => { echo "Unknown priority!" }
     }
 }
@@ -183,23 +186,43 @@ export def due [
 }
 
 export def help [] {
-    print $"(ansi cyan)Nutask: a to do app for your favorite shell(ansi reset)\n"
-    print $"(ansi yellow)Available subcommands:(ansi reset)"
-    print $"    (ansi green)task help(ansi reset)          - Display this help message."
-    print $"    (ansi green)task(ansi reset)               - Alias to \"task help\""
-    print $"    (ansi green)task ls(ansi reset)            - Alias for the show function to display tasks."
-    print $"    (ansi green)task purge(ansi reset)         - Deletes all completed tasks."
-    print $"    (ansi green)task rm <index>(ansi reset)    - Remove a task based on its index."
-    print $"    (ansi green)task tick <index>(ansi reset)  - Switch the status of a task based on its index."
-    print $"    (ansi green)task desc <index> <description>(ansi reset)  - Edit a task description based on its index."
-    print $"    (ansi green)task \(p\)riority <index> <priority>(ansi reset)  - Change the priority of a task based on its index."
-    print $"    (ansi green)task add <description> [-p <priority>](ansi reset)   
-    ╰-> Add a new task with a description and an optional priority \(default: medium\)."
-    print $"\n(ansi yellow)Priorities:(ansi reset)"
-    print $"    (ansi blue)l - Low(ansi reset)"
-    print $"    (ansi white)m - Medium(ansi reset)"
-    print $"    (ansi xterm_darkorange)h - High(ansi reset)"
-    print $"    (ansi red)u - Urgent(ansi reset)"
+    print (apply_color "cyan" "Nutask: a to-do app for your favorite shell\n")
+    print (apply_color "yellow" "Available subcommands:")
+
+    # Commands description as single strings
+    let commands = [
+        ["task help", "- Display this help message."],
+        ["task", "- Alias to \"task help\""],
+        ["task ls", "- Alias for the show function to display tasks."],
+        ["task purge", "- Deletes all completed tasks."],
+        ["task rm <index>", "- Remove a task based on its index."],
+        ["task tick <index>", "- Switch the status of a task based on its index."],
+        ["task desc <index> <description>", "- Edit a task description based on its index."],
+        ["task priority <index> <priority>", "- Change the priority of a task based on its index."],
+        ["task add <description> [-p <priority>]", "\n   ╰──> Add a new task with a description and an optional priority (default: medium)."]
+    ]
+
+    # Looping through commands using each and applying separate colors for command and description
+    $commands | each { |inn|
+        let command_part = apply_color "green" ($inn | get 0)
+        let desc_part = apply_color "white" ($inn | get 1)
+        print ("   " + $command_part + " " + $desc_part)
+    } 
+
+    print "\n" (apply_color "yellow" "Priorities:")
+
+    # Simplified priorities description with color
+    let priorities = [
+        {"color": "blue", "desc": "l - Low"},
+        {"color": "white", "desc": "m - Medium"},
+        {"color": "xterm_darkorange", "desc": "h - High"},
+        {"color": "red", "desc": "u - Urgent"}
+    ]
+
+    # Looping through priorities using each and applying color
+    $priorities | each { |in|
+        (apply_color $in.color ("    " + $in.desc))
+    } | to text
 }
 
 def update_task [
