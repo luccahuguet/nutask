@@ -186,32 +186,57 @@ export def due [
 }
 
 export def help [] {
-    print (apply_color "cyan" "Nutask: a to-do app for your favorite shell\n")
+    print ("\n" + (apply_color "cyan" "Nutask: a to-do app for your favorite shell\n"))
+
     print (apply_color "yellow" "Available subcommands:")
 
-    # Commands description as single strings
-    let commands = [
-        ["task help", "- Display this help message."],
-        ["task", "- Alias to \"task help\""],
-        ["task ls", "- Alias for the show function to display tasks."],
-        ["task purge", "- Deletes all completed tasks."],
-        ["task rm <index>", "- Remove a task based on its index."],
-        ["task tick <index>", "- Switch the status of a task based on its index."],
-        ["task desc <index> <description>", "- Edit a task description based on its index."],
-        ["task priority <index> <priority>", "- Change the priority of a task based on its index."],
-        ["task add <description> [-p <priority>]", "\n   ╰──> Add a new task with a description and an optional priority (default: medium)."]
+    let task_mgmt_cmds = [
+        ["task add <description> [-p <priority>]", 
+        "◯\n    ◯──> Add a new task with a description and optional priority. Ex: task add 'Buy milk' -p h"],
+        ["task rm <index>", "> Remove a task based on its index. Ex: task rm 2"],
+        ["task tick <index>", "> Switch the status of a task based on its index. Ex: task tick 2"],
+        ["task bump <index>", "> Move a task to the top within the same priority. Ex: task bump 2"]
     ]
 
-    # Looping through commands using each and applying separate colors for command and description
+    let editing_cmds = [
+        ["task desc <index> <description>", 
+        "◯\n    ◯──> Edit a task's description based on its index. Ex: task desc 2 'Buy almond milk'"],
+        ["task priority <index> <priority>", "> Change the priority of a task. Ex: task priority 2 l"],
+        ["task due <index> <due_date>", "> Edit a task's due date. Ex: task due 2 '2023-10-10'"]
+    ]
+
+    let view_cmds = [
+        ["task ls", "> Display tasks"],
+        ["task purge", "> Deletes all completed tasks"]
+        ["task help", "> Displays this help message"]
+        ["task", "> Alias to task help"]
+    ]
+
+    print ("\n" + (apply_color "magenta" "Task Management"))
+    display_commands $task_mgmt_cmds
+
+    print ("\n" + (apply_color "magenta" "Task Editing"))
+    display_commands $editing_cmds
+
+    print ("\n" + (apply_color "magenta" "View & Cleanup"))
+    display_commands $view_cmds
+
+    print ("\n" + (apply_color "yellow" "Priorities:"))
+    display_priorities
+
+    print ("\n" + (apply_color "blue" "For more help, visit: https://docs.nutask.com"))
+
+}
+
+def display_commands [commands] {
     $commands | each { |inn|
         let command_part = apply_color "green" ($inn | get 0)
         let desc_part = apply_color "white" ($inn | get 1)
-        print ("   " + $command_part + " " + $desc_part)
-    } 
+        print ("   " + $command_part + " ──" + $desc_part)
+    }
+}
 
-    print "\n" (apply_color "yellow" "Priorities:")
-
-    # Simplified priorities description with color
+def display_priorities [] {
     let priorities = [
         {"color": "blue", "desc": "l - Low"},
         {"color": "white", "desc": "m - Medium"},
@@ -219,10 +244,9 @@ export def help [] {
         {"color": "red", "desc": "u - Urgent"}
     ]
 
-    # Looping through priorities using each and applying color
     $priorities | each { |in|
-        (apply_color $in.color ("    " + $in.desc))
-    } | to text
+        print (apply_color $in.color ("   " + $in.desc))
+    } 
 }
 
 def update_task [
