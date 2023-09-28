@@ -68,21 +68,47 @@ def shorten [input] {
 }
 
 # Displays the list of tasks.
+# Displays the list of tasks.
 export def show [] {
     list_tasks | each { |task| 
-        let done_color = get_done_color $task.done
-        let pri = get_priority $task.priority
-        let color = if $task.done {$done_color} else {$pri.color}
         $task 
             | reject done
-            | update priority (apply_color $color $pri.name)
-            | update description (apply_color $color $task.description)
-            | update age (apply_color "purple" (shorten $task.age))
-            | update proj (apply_color "yellow" $task.proj)
+            | reject priority
+            | update description (colorize $task "description")
+            | update age (colorize $task "age")
+            | update proj (colorize $task "proj")
+            | update due (colorize $task "due")
     } 
 }
 
-def get_done_color [done: bool] { if $done { "green" } else { "white" } }
+def colorize [task, field: string] {
+    let color = if $task.done { "green" } else { get_color $task $field }
+    apply_color $color (get_field_value $task $field)
+}
+
+def get_color [task, field: string] {
+    match $field {
+        "description" => { get_priority $task.priority | get color }
+        "priority" => { get_priority $task.priority | get color }
+        "age" => { "purple" }
+        "proj" => { "yellow" }
+        "due" => { "purple" }
+        _ => { "white" }
+    }
+}
+
+def get_field_value [task, field: string] {
+    match $field {
+        "description" => { $task.description }
+        "priority" => { get_priority $task.priority | get name }
+        "age" => { shorten $task.age }
+        "proj" => { $task.proj }
+        "due" => { $task.due }
+        _ => { "" }
+    }
+}
+
+# Remaining definitions remain unchanged.
 
 def apply_color [color: string, str: string] { $"(ansi $color)($str)(ansi reset)" }
 
