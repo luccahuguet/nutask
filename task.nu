@@ -192,24 +192,24 @@ export def help [] {
 
     let task_mgmt_cmds = [
         ["task add <description> [-p <priority>]", 
-        "◯\n    ◯──> Add a new task with a description and optional priority. Ex: task add 'Buy milk' -p h"],
-        ["task rm <index>", "> Remove a task based on its index. Ex: task rm 2"],
-        ["task tick <index>", "> Switch the status of a task based on its index. Ex: task tick 2"],
-        ["task bump <index>", "> Move a task to the top within the same priority. Ex: task bump 2"]
+        "⭘ \n    ⭘──▶ Add a new task with a description and optional priority. Ex: task add 'Buy milk' -p h"],
+        ["task rm <index>", "▶ Remove a task based on its index. Ex: task rm 2"],
+        ["task tick <index>", "▶ Switch the status of a task based on its index. Ex: task tick 2"],
+        ["task bump <index>", "▶ Move a task to the top within the same priority. Ex: task bump 2"]
     ]
 
     let editing_cmds = [
         ["task desc <index> <description>", 
-        "◯\n    ◯──> Edit a task's description based on its index. Ex: task desc 2 'Buy almond milk'"],
-        ["task priority <index> <priority>", "> Change the priority of a task. Ex: task priority 2 l"],
-        ["task due <index> <due_date>", "> Edit a task's due date. Ex: task due 2 '2023-10-10'"]
+        "⭘ \n    ⭘──▶ Edit a task's description based on its index. Ex: task desc 2 'Buy almond milk'"],
+        ["task priority <index> <priority>", "▶ Change the priority of a task. Ex: task priority 2 l"],
+        ["task due <index> <due_date>", "▶ Edit a task's due date. Ex: task due 2 tomorrow"]
     ]
 
     let view_cmds = [
-        ["task ls", "> Display tasks"],
-        ["task purge", "> Deletes all completed tasks"]
-        ["task help", "> Displays this help message"]
-        ["task", "> Alias to task help"]
+        ["task ls", "▶ Display tasks"],
+        ["task purge", "▶ Deletes all completed tasks"]
+        ["task help", "▶ Displays this help message"]
+        ["task", "▶ Alias to task help"]
     ]
 
     print ("\n" + (apply_color "magenta" "Task Management"))
@@ -224,7 +224,7 @@ export def help [] {
     print ("\n" + (apply_color "yellow" "Priorities:"))
     display_priorities
 
-    print ("\n" + (apply_color "blue" "For more help, visit: https://docs.nutask.com"))
+    print ("\n" + (apply_color "blue" "For more info, visit: https://github.com/luccahuguet/nutask"))
 
 }
 
