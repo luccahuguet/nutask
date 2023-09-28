@@ -31,10 +31,10 @@ export def add [
     list_tasks | append {
         "description": $desc,
         "priority": $priority_num,
+        "proj": $proj,
         "done": $done,
         "age": $age,
         "due": $due,
-        "proj": $proj,
     } | sort_save
     show
 }
