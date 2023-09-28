@@ -17,22 +17,24 @@ def sort_save [] { sort_tasks | save $task_path -f }
 # Adds a new task with the given description.
 export def add [
     ...words: string # the task description
-    -p: string = "m" # The priority of the task
-    -d: string = "-" # When the task is due
-] {
-    if not (is_priority_valid $p) {return}
+    --pri: string = "m" # The priority of the task
+    --due: string = "-" # When the task is due
+    --proj: string = ""  # The project of the task
+    ] {
+    if not (is_priority_valid $pri) {return}
 
     let desc = $words | str join " "
-    let priority_num = get_num_priority $p
+    let priority_num = get_num_priority $pri
     let done = false
-    let due = $d 
+    let due = $due 
     let age = date now
     list_tasks | append {
-     "description": $desc,
-     "priority": $priority_num,
-     "done": $done,
-     "age": $age,
-     "due": $due,
+        "description": $desc,
+        "priority": $priority_num,
+        "done": $done,
+        "age": $age,
+        "due": $due,
+        "proj": $proj,
     } | sort_save
     show
 }
@@ -76,7 +78,8 @@ export def show [] {
             | update priority (apply_color $color $pri.name)
             | update description (apply_color $color $task.description)
             | update age (apply_color "purple" (shorten $task.age))
-    }
+            | update proj (apply_color "yellow" $task.proj)
+    } 
 }
 
 def get_done_color [done: bool] { if $done { "green" } else { "white" } }
@@ -185,6 +188,15 @@ export def due [
     show
 }
 
+# Sets the project of a task based on its index.
+export def proj [
+    index: int # The index of the task to change project
+    j: string # The project to set
+] {
+    update_task $index proj $j
+    show
+}
+
 export def help [] {
     print ("\n" + (apply_color "cyan" "Nutask: a to-do app for your favorite shell\n"))
 
@@ -202,7 +214,8 @@ export def help [] {
         ["task desc <index> <description>", 
         "⭘ \n    ⭘──▶ Edit a task's description based on its index. Ex: task desc 2 'Buy almond milk'"],
         ["task priority <index> <priority>", "▶ Change the priority of a task. Ex: task priority 2 l"],
-        ["task due <index> <due_date>", "▶ Edit a task's due date. Ex: task due 2 tomorrow"]
+        ["task due <index> <due_date>", "▶ Edit a task's due date. Ex: task due 2 tomorrow"],
+        ["task proj <index> <project>", "▶ Change the project of a task. Ex: task proj 2 work"],
     ]
 
     let view_cmds = [
