@@ -103,12 +103,14 @@ def get_field_value [task, field: string] {
         "priority" => { get_priority $task.priority | get name }
         "age" => { shorten $task.age }
         "proj" => { $task.proj }
-        "due" => { $task.due }
+        "due" => { get_date $task.due }
         _ => { "" }
     }
 }
 
-# Remaining definitions remain unchanged.
+def get_date [date_string: string] {
+        try { $date_string | into datetime | date humanize} catch {$date_string}
+}
 
 def apply_color [color: string, str: string] { $"(ansi $color)($str)(ansi reset)" }
 
