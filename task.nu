@@ -26,7 +26,7 @@ export def add [
     let desc = $words | str join " "
     let priority_num = get_num_priority $pri
     let done = false
-    let due = $due 
+    let due = $due
     let age = date now
     list_tasks | append {
         "description": $desc,
@@ -39,46 +39,62 @@ export def add [
     show
 }
 
-def shorten [input] {
-    let $input = $input | date humanize
+def singular_mapping [input] {
     match $input {
-        "now"            =>  { "now" }
-        "a minute ago"   =>  { "1m" }
-        "an hour ago"    =>  { "1h" }
-        "a day ago"      =>  { "1d" }
-        "a week ago"     =>  { "1w" }
-        "a month ago"    =>  { "1mo" }
-        "a year ago"     =>  { "1y" }
-        "eternity"   =>  { "∞" }
-        _            =>  { 
-            # For other strings with numbers
-            let num = $input | split column " " | $in.column1 | to text
-            let text = $input | split column " " | $in.column2 | to text
-            match  $text {
-                "minutes" => { $num + "m"  }
-                "hours" =>   { $num + "h"  }
-                "days"  =>   { $num + "d"  }
-                "weeks" =>   { $num + "w"  }
-                "months" =>  { $num + "mo" }
-                "years" =>   { $num + "y"  }
-                _       =>   { $num        }
-            }
+        "minute" => { "m" }
+        "hour"  => { "h" }
+        "day"    => { "d" }
+        "week"   => { "w" }
+        "month"  => { "mo" }
+        "year"   => { "y" }
+        _           => { null }
+    }
+}
+
+def shorten [input] {
+    let parsed = $input | parse "{one} {two} {three}"
+    let one = $parsed.one | str join " "
+    let two = $parsed.two | str join " "
+    let three = $parsed.three | str join " "
+
+    if ($two == "" and $three == "") {
+        $input
+    } else if (($one) == "in") {
+        if ($two in ["a", "an"]) {
+            "in 1" + (singular_mapping $three)
+        } else {
+            "in " + ($two) + (singular_mapping ($three | str substring 0..(($three | str length) - 1)))
+        }
+    } else {
+        if ($one in ["a", "an"]) {
+            "1" + (singular_mapping $two)
+        } else {
+            $one + (singular_mapping ($two | str substring 0..(($two | str length) - 1)))
         }
     }
+}
+
+def get_date [date_string: string] {
+        try {
+            let date_h = $date_string | into datetime | date humanize
+            shorten $date_h
+        } catch {
+            $date_string
+        }
 }
 
 # Displays the list of tasks.
 # Displays the list of tasks.
 export def show [] {
-    list_tasks | each { |task| 
-        $task 
+    list_tasks | each { |task|
+        $task
             | reject done
             | reject priority
             | update description (colorize $task "description")
             | update age (colorize $task "age")
             | update proj (colorize $task "proj")
             | update due (colorize $task "due")
-    } 
+    }
 }
 
 def colorize [task, field: string] {
@@ -101,16 +117,13 @@ def get_field_value [task, field: string] {
     match $field {
         "description" => { $task.description }
         "priority" => { get_priority $task.priority | get name }
-        "age" => { shorten $task.age }
+        "age" => { shorten ($task.age | date humanize) }
         "proj" => { $task.proj }
         "due" => { get_date $task.due }
         _ => { "" }
     }
 }
 
-def get_date [date_string: string] {
-        try { $date_string | into datetime | date humanize} catch {$date_string}
-}
 
 def apply_color [color: string, str: string] { $"(ansi $color)($str)(ansi reset)" }
 
@@ -190,7 +203,7 @@ export def tick [
 export def bump [
     index: int # The position of the task to switch its status
 ] {
-    let bumped = list_tasks | get $index; 
+    let bumped = list_tasks | get $index;
     let undone = list_tasks | enumerate | where not $it.item.done
     let pri_start_idx = $undone | where $it.item.priority == $bumped.priority | first | get index
     list_tasks | drop nth $index | insert $pri_start_idx $bumped | save $task_path -f
@@ -231,7 +244,7 @@ export def help [] {
     print (apply_color "yellow" "Available subcommands:")
 
     let task_mgmt_cmds = [
-        ["task add <description> [-p <priority>]", 
+        ["task add <description> [-p <priority>]",
         "⭘ \n    ⭘──▶ Add a new task with a description and optional priority. Ex: task add 'Buy milk' -p h"],
         ["task rm <index>", "▶ Remove a task based on its index. Ex: task rm 2"],
         ["task tick <index>", "▶ Switch the status of a task based on its index. Ex: task tick 2"],
@@ -239,7 +252,7 @@ export def help [] {
     ]
 
     let editing_cmds = [
-        ["task desc <index> <description>", 
+        ["task desc <index> <description>",
         "⭘ \n    ⭘──▶ Edit a task's description based on its index. Ex: task desc 2 'Buy almond milk'"],
         ["task priority <index> <priority>", "▶ Change the priority of a task. Ex: task priority 2 l"],
         ["task due <index> <due_date>", "▶ Edit a task's due date. Ex: task due 2 tomorrow"],
@@ -287,7 +300,7 @@ def display_priorities [] {
 
     $priorities | each { |in|
         print (apply_color $in.color ("   " + $in.desc))
-    } 
+    }
 }
 
 def update_task [
