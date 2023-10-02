@@ -1,18 +1,16 @@
 # module task.nu: a to do app for your favorite shell
+use task_helper.nu *
 
 # Main function to display the list of tasks.
 export def main [] = {help}
 
 # Variables
-const task_path = "~/.tasks.nuon"
-const list_of_priorities = ["l" "m" "h" "u"]
+# const task_path = "~/.tasks.nuon"
+# const list_of_priorities = ["l" "m" "h" "u"]
 
 # Aliases.
 export def ls [] = {show}
 export def p [index priority] = {priority $index $priority}
-def sort_tasks [] { sort-by done priority -r age }
-def sort_save [] { sort_tasks | save $task_path -f }
-
 
 # Adds a new task with the given description.
 export def add [
@@ -39,51 +37,6 @@ export def add [
     show
 }
 
-def singular_mapping [input] {
-    match $input {
-        "minute" => { "m" }
-        "hour"  => { "h" }
-        "day"    => { "d" }
-        "week"   => { "w" }
-        "month"  => { "mo" }
-        "year"   => { "y" }
-        _           => { null }
-    }
-}
-
-def shorten [input] {
-    let parsed = $input | parse "{one} {two} {three}"
-    let one = $parsed.one | str join " "
-    let two = $parsed.two | str join " "
-    let three = $parsed.three | str join " "
-
-    if ($two == "" and $three == "") {
-        $input
-    } else if (($one) == "in") {
-        if ($two in ["a", "an"]) {
-            "in 1" + (singular_mapping $three)
-        } else {
-            "in " + ($two) + (singular_mapping ($three | str substring 0..(($three | str length) - 1)))
-        }
-    } else {
-        if ($one in ["a", "an"]) {
-            "1" + (singular_mapping $two)
-        } else {
-            $one + (singular_mapping ($two | str substring 0..(($two | str length) - 1)))
-        }
-    }
-}
-
-def get_date [date_string: string] {
-        try {
-            let date_h = $date_string | into datetime | date humanize
-            shorten $date_h
-        } catch {
-            $date_string
-        }
-}
-
-# Displays the list of tasks.
 # Displays the list of tasks.
 export def show [] {
     list_tasks | each { |task|
@@ -94,74 +47,6 @@ export def show [] {
             | update age (colorize $task "age")
             | update proj (colorize $task "proj")
             | update due (colorize $task "due")
-    }
-}
-
-def colorize [task, field: string] {
-    let color = if $task.done { "green" } else { get_color $task $field }
-    apply_color $color (get_field_value $task $field)
-}
-
-def get_color [task, field: string] {
-    match $field {
-        "description" => { get_priority $task.priority | get color }
-        "priority" => { get_priority $task.priority | get color }
-        "age" => { "purple" }
-        "proj" => { "yellow" }
-        "due" => { "purple" }
-        _ => { "white" }
-    }
-}
-
-def get_field_value [task, field: string] {
-    match $field {
-        "description" => { $task.description }
-        "priority" => { get_priority $task.priority | get name }
-        "age" => { shorten ($task.age | date humanize) }
-        "proj" => { $task.proj }
-        "due" => { get_date $task.due }
-        _ => { "" }
-    }
-}
-
-
-def apply_color [color: string, str: string] { $"(ansi $color)($str)(ansi reset)" }
-
-def get_priority [priority: number] {
-    match $priority {
-        1 => { {name: "low", color: "blue"} }
-        2 => { {name: "medium", color: "white"} }
-        3 => { {name: "high", color: "xterm_darkorange"} }
-        4 => { {name: "urgent", color: "red"} }
-        _ => { echo "Unknown priority!" }
-    }
-}
-
-# obtains the numeric priority of a task
-def get_num_priority [
-    priority: string
-] {
-    match $priority {
-        "l" => { 1 }
-        "m" => { 2 }
-        "h" => { 3 }
-        "u" => { 4 }
-        _ => {
-            echo "Unknown priority!"
-            return 0
-        }
-    }
-}
-
-
-def is_priority_valid [
-    priority: string
-] {
-    if not ($priority in $list_of_priorities) {
-        print $"Invalid priority. Valid priorities are: ($list_of_priorities | str join ', ' )"
-        false
-    } else {
-        true
     }
 }
 
@@ -280,44 +165,5 @@ export def help [] {
 
     print ("\n" + (apply_color "blue" "For more info, visit: https://github.com/luccahuguet/nutask"))
 
-}
-
-def display_commands [commands] {
-    $commands | each { |inn|
-        let command_part = apply_color "green" ($inn | get 0)
-        let desc_part = apply_color "white" ($inn | get 1)
-        print ("   " + $command_part + " ──" + $desc_part)
-    }
-}
-
-def display_priorities [] {
-    let priorities = [
-        {"color": "blue", "desc": "l - Low"},
-        {"color": "white", "desc": "m - Medium"},
-        {"color": "xterm_darkorange", "desc": "h - High"},
-        {"color": "red", "desc": "u - Urgent"}
-    ]
-
-    $priorities | each { |in|
-        print (apply_color $in.color ("   " + $in.desc))
-    }
-}
-
-def update_task [
-    index: int # The index of the task to update
-    property: string # The property to update
-    value # The new value of the property
-] {
-    let updated_task = list_tasks | get $index | upsert $property $value
-    list_tasks | upsert $index $updated_task | sort_save
-    show
-}
-
-# Returns the list of tasks. If the task file doesn't exist, creates a new one.
-def list_tasks [] {
-    if not ($task_path| path exists) {
-        "[]" | save $task_path
-    }
-    open $task_path
 }
 
