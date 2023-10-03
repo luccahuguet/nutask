@@ -7,6 +7,7 @@ export def sort_save [] { sort_tasks | save $task_path -f }
 
 export def shorten_unit [input] {
     match $input {
+        "second" => { "s" }
         "minute" => { "m" }
         "hour"  => { "h" }
         "day"    => { "d" }

@@ -126,7 +126,7 @@ export def help [] {
 
     let task_mgmt_cmds = [
         ["task add <description> [--pri <l,m,h,u>] [--proj <string>] [--due <string or date>]",
-        "⭘ \n    ⭘──▶ Add a new task with a description and optional priority. Ex: task add 'Buy milk' -p h"],
+        "⭘ \n    ⭘──▶ Add a new task with a description and optional priority. Ex: task add 'Buy milk' --pri h"],
         ["task rm <index>", "▶ Remove a task based on its index. Ex: task rm 2"],
         ["task tick <index>", "▶ Switch the status of a task based on its index. Ex: task tick 2"],
         ["task bump <index>", "▶ Move a task to the top within the same priority. Ex: task bump 2"]
