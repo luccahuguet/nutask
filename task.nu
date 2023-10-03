@@ -125,7 +125,7 @@ export def help [] {
     print (apply_color "yellow" "Available subcommands:")
 
     let task_mgmt_cmds = [
-        ["task add <description> [--pri <priority>]",
+        ["task add <description> [--pri <l,m,h,u>] [--proj <string>] [--due <string or date>]",
         "⭘ \n    ⭘──▶ Add a new task with a description and optional priority. Ex: task add 'Buy milk' -p h"],
         ["task rm <index>", "▶ Remove a task based on its index. Ex: task rm 2"],
         ["task tick <index>", "▶ Switch the status of a task based on its index. Ex: task tick 2"],
