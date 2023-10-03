@@ -1,5 +1,6 @@
 # module task.nu: a to do app for your favorite shell
-use task_helper.nu *
+use helper.nu *
+use config.nu *
 
 # Main function to display the list of tasks.
 export def main [] = {help}
@@ -36,9 +37,8 @@ export def add [
 # Displays the list of tasks.
 export def show [] {
     list_tasks | each { |task|
-        $task
-            | reject done
-            | reject priority
+        $task  | if not $colorblind {reject done} else {$in}
+            | if not $colorblind {reject priority} else {$in}
             | update description (colorize $task "description")
             | update age (colorize $task "age")
             | update proj (colorize $task "proj")
@@ -125,7 +125,7 @@ export def help [] {
     print (apply_color "yellow" "Available subcommands:")
 
     let task_mgmt_cmds = [
-        ["task add <description> [--pri <l,m,h,u>] [--proj <string>] [--due <string or date>]",
+        ["task add <description> [--pri <l/m/h/u>] [--proj <string>] [--due <string or date>]",
         "⭘ \n    ⭘──▶ Add a new task with a description and optional priority. Ex: task add 'Buy milk' --pri h"],
         ["task rm <index>", "▶ Remove a task based on its index. Ex: task rm 2"],
         ["task tick <index>", "▶ Switch the status of a task based on its index. Ex: task tick 2"],

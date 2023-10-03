@@ -6,7 +6,7 @@ TODO: add demo GIF
 ![Demo GIF or screenshot if available](path-to-demo-image.gif)
 
 ## Features 🚀
-- **Simple Management**: Add, remove, list, and mark tasks as done seamlessly.
+- **Simple Management**: Add, remove, list, and tick tasks as done seamlessly.
 - **Integrated with NuShell**: Use the power and flexibility of NuShell to manipulate tasks.
 - **Persistent**: Your tasks are stored securely in a `.tasks.nuon` file in your home directory.
 
@@ -23,12 +23,13 @@ TODO: add demo GIF
 
 ### Adding and Modifying Tasks:
 - **Add a task (default priority is medium)**: `task add [Your task description]`
-- **Add a task with specific priority**: `task add [Your task description] --p [priority: l/m/h/u]`
+- **Add a task, using all the options/flags**: `task add [Your task description] --pri [l/m/h/u] --proj [<string>] --due <string or date>`
 
 ### Interacting with Tasks:
 - **Mark a task as done or not done**: `task tick [index of the task]`
-- **Edit the description of a task**: `task edit [index of the task] [Your new task description]`
-- **Change the priority of a task**: `task p [index of the task] [priority: l/m/h/u]`
+- **Edit the description of a task**: `task desc [index of the task] [Your new task description]`
+- **Change the priority of a task**: `task pri [index of the task] [l/m/h/u]`
+- **Change the due date of a task**: `task due [index of the task] [<string or date>]`
 - **Remove a specific task**: `task rm [index of the task]`
 - **Clear all completed tasks**: `task purge`
 
@@ -43,10 +44,11 @@ TODO: add demo GIF
 - **Urgent**: `u`
 
 ## Roadmap 🛣️
-- [x] Enhanced Display: Mark done tasks as green
 - [x] Task Prioritization: Tasks can now have different levels of priority.
-- [ ] Due date: Add a due date option for each task
+- [x] Enhanced Display: Mark done tasks as green, and color tasks by priority
+- [x] Due date: Add a due date option for each task
+- [x] Support for Projects: Separate your tasks into different projects
 - [ ] Backup & Archive: Safeguard your tasks with backup and archiving features.
 
 ## Disclaimer
-- This is not an "official" package endorsed by the Nushell project
+- This is not an "official" package endorsed by the Nushell project (for now...)
