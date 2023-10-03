@@ -28,8 +28,8 @@ export def parse_date [input] {
     } else { 
         {number: $fst, unit: $snd, future: false}
     }
-    print $date.number
-    print $date.unit
+    # print $date.number
+    # print $date.unit
     shorten_any_date $date.number $date.unit $date.future
 }
 

@@ -6,13 +6,13 @@ export def main [] = {help}
 
 # Aliases.
 export def ls [] = {show}
-export def p [index priority] = {priority $index $priority}
+export def pri [index priority] = {priority $index $priority}
 
 # Adds a new task with the given description.
 export def add [
     ...words: string # the task description
     --pri: string = "m" # The priority of the task
-    --due: string = "-" # When the task is due
+    --due: string = "" # When the task is due
     --proj: string = ""  # The project of the task
     ] {
     if not (is_priority_valid $pri) {return}
@@ -125,7 +125,7 @@ export def help [] {
     print (apply_color "yellow" "Available subcommands:")
 
     let task_mgmt_cmds = [
-        ["task add <description> [-p <priority>]",
+        ["task add <description> [--pri <priority>]",
         "⭘ \n    ⭘──▶ Add a new task with a description and optional priority. Ex: task add 'Buy milk' -p h"],
         ["task rm <index>", "▶ Remove a task based on its index. Ex: task rm 2"],
         ["task tick <index>", "▶ Switch the status of a task based on its index. Ex: task tick 2"],
@@ -135,7 +135,7 @@ export def help [] {
     let editing_cmds = [
         ["task desc <index> <description>",
         "⭘ \n    ⭘──▶ Edit a task's description based on its index. Ex: task desc 2 'Buy almond milk'"],
-        ["task priority <index> <priority>", "▶ Change the priority of a task. Ex: task priority 2 l"],
+        ["task pri <index> <priority>", "▶ Change the priority of a task. Ex: task priority 2 l"],
         ["task due <index> <due_date>", "▶ Edit a task's due date. Ex: task due 2 tomorrow"],
         ["task proj <index> <project>", "▶ Change the project of a task. Ex: task proj 2 work"],
     ]
