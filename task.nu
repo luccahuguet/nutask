@@ -4,10 +4,6 @@ use task_helper.nu *
 # Main function to display the list of tasks.
 export def main [] = {help}
 
-# Variables
-# const task_path = "~/.tasks.nuon"
-# const list_of_priorities = ["l" "m" "h" "u"]
-
 # Aliases.
 export def ls [] = {show}
 export def p [index priority] = {priority $index $priority}

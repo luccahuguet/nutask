@@ -24,19 +24,22 @@ export def parse_date [input] {
     let third = $parsed.third | str join " "
     if ($snd == "" and $third == "") { return $input }
     mut date = if (($fst) == "in") {
-        {number: $snd, unit: $third}
+        {number: $snd, unit: $third, future: true}
     } else { 
-        {number: $fst, unit: $snd}
+        {number: $fst, unit: $snd, future: false}
     }
-    shorten_any_date $date.number $date.unit 
+    print $date.number
+    print $date.unit
+    shorten_any_date $date.number $date.unit $date.future
 }
 
-export def shorten_any_date [number, unit] {
-    if ($number in ["a", "an"]) {
+export def shorten_any_date [number, unit, future] {
+    let res = if ($number in ["a", "an"]) {
         "1" + (shorten_unit $unit)
     } else {
         $number + (shorten_unit ($unit | str substring 0..(($unit | str length) - 1)))
     }
+    if $future {"in " + $res} else { $res }
 }
 
 export def try_date [date_string: string] {
