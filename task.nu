@@ -118,6 +118,13 @@ export def proj [
     show
 }
 
+# Lists every task from that project
+export def lsproj [
+    proj: string # The project from which to list tasks 
+] {
+    show | where proj =~ $proj
+}
+
 export def help [] {
     print ("\n" + (apply_color "cyan" "Nutask: a to-do app for your favorite shell\n"))
 
@@ -142,6 +149,7 @@ export def help [] {
     let view_cmds = [
         ["task ls", "▶ Display tasks"],
         ["task purge", "▶ Deletes all completed tasks"]
+        ["task lsproj <project>", "▶ Shows every task from that project. Ex: task lsproj work"],
         ["task help", "▶ Displays this help message"]
         ["task", "▶ Alias to task help"]
     ]

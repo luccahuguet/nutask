@@ -18,11 +18,6 @@ TODO: add demo GIF
    \\
 ## Usage 🛠️
 
-### Displaying Tasks:
-**Display the list of tasks**: 
-```bash
-task ls
-```
 ### Interacting with Tasks:
 **Add a task (with the default values)**: 
 ```bash
@@ -67,7 +62,15 @@ task proj [index of the task] [<string>]
 ```
 
 \\
-### Help:
+### Displaying informations:
+**Display the list of tasks**: 
+```bash
+task ls
+```
+**Shows every task from a project**: 
+```bash
+task lsproj <project>
+```
 **Display the help message**: 
 ```bash
 task help
