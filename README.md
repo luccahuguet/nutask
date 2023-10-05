@@ -24,8 +24,8 @@ TODO: add demo GIF
 task ls
 ```
 
-### Adding and Modifying Tasks:
-**Add a task (default priority is medium)**: 
+### Interacting with Tasks:
+**Add a task (with the default values)**: 
 ```bash
 task add [Your task description]
 ```
@@ -34,12 +34,24 @@ task add [Your task description]
 task add [Your task description] --pri [l/m/h/u] --proj [<string>] --due <string or date>
 ```
 
+
 ### Interacting with Tasks:
 **Mark a task as done or not done**: 
 ```bash
 task tick [index of the task]
 ```
-**Edit the description of a task**: 
+**Remove a specific task**: 
+```bash
+task rm [index of the task]
+```
+**Clear all completed tasks**: 
+```bash
+task purge
+```
+
+
+### Edit tasks:
+**Change the description of a task**: 
 ```bash
 task desc [index of the task] [Your new task description]
 ```
@@ -51,14 +63,11 @@ task pri [index of the task] [l/m/h/u]
 ```bash
 task due [index of the task] [<string or date>]
 ```
-**Remove a specific task**: 
+**Change the proj date of a task**: 
 ```bash
-task rm [index of the task]
+task proj [index of the task] [<string>]
 ```
-**Clear all completed tasks**: 
-```bash
-task purge
-```
+
 
 ### Help:
 **Display the help message**: 
