@@ -19,53 +19,53 @@ TODO: add demo GIF
 ## Usage 🛠️
 
 ### Displaying Tasks:
-- **Display the list of tasks**: 
+**Display the list of tasks**: 
 ```bash
 task ls
 ```
 
 ### Adding and Modifying Tasks:
-- **Add a task (default priority is medium)**: 
+**Add a task (default priority is medium)**: 
 ```bash
 task add [Your task description]
 ```
-- **Add a task, using all the options/flags**: 
+**Add a task, using all the options/flags**: 
 ```bash
 task add [Your task description] --pri [l/m/h/u] --proj [<string>] --due <string or date>
 ```
 
 ### Interacting with Tasks:
-- **Mark a task as done or not done**: 
+**Mark a task as done or not done**: 
 ```bash
 task tick [index of the task]
 ```
-- **Edit the description of a task**: 
+**Edit the description of a task**: 
 ```bash
 task desc [index of the task] [Your new task description]
 ```
-- **Change the priority of a task**: 
+**Change the priority of a task**: 
 ```bash
 task pri [index of the task] [l/m/h/u]
 ```
-- **Change the due date of a task**: 
+**Change the due date of a task**: 
 ```bash
 task due [index of the task] [<string or date>]
 ```
-- **Remove a specific task**: 
+**Remove a specific task**: 
 ```bash
 task rm [index of the task]
 ```
-- **Clear all completed tasks**: 
+**Clear all completed tasks**: 
 ```bash
 task purge
 ```
 
 ### Help:
-- **Display the help message**: 
+**Display the help message**: 
 ```bash
 task help
 ```
-- **Alias for displaying the help message**: 
+**Alias for displaying the help message**: 
 ```bash
 task 
 ```
