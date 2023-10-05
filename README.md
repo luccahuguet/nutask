@@ -22,23 +22,53 @@ TODO: add demo GIF
 - **Display the list of tasks**: `task ls`
 
 ### Adding and Modifying Tasks:
-- **Add a task (default priority is medium)**: `task add [Your task description]`
-- **Add a task, using all the options/flags**: `task add [Your task description] --pri [l/m/h/u] --proj [<string>] --due <string or date>`
+- **Add a task (default priority is medium)**: ```bash
+task add [Your task description]
+```
+- **Add a task, using all the options/flags**: 
+```bash
+task add [Your task description] --pri [l/m/h/u] --proj [<string>] --due <string or date>
+```
 
 ### Interacting with Tasks:
-- **Mark a task as done or not done**: `task tick [index of the task]`
-- **Edit the description of a task**: `task desc [index of the task] [Your new task description]`
-- **Change the priority of a task**: `task pri [index of the task] [l/m/h/u]`
-- **Change the due date of a task**: `task due [index of the task] [<string or date>]`
-- **Remove a specific task**: `task rm [index of the task]`
-- **Clear all completed tasks**: `task purge`
+- **Mark a task as done or not done**: 
+```bash
+task tick [index of the task]
+```
+- **Edit the description of a task**: 
+```bash
+task desc [index of the task] [Your new task description]
+```
+- **Change the priority of a task**: 
+```bash
+task pri [index of the task] [l/m/h/u]
+```
+- **Change the due date of a task**: 
+```bash
+task due [index of the task] [<string or date>]
+```
+- **Remove a specific task**: 
+```bash
+task rm [index of the task]
+```
+- **Clear all completed tasks**: 
+```bash
+task purge
+```
 
 ### Help:
-- **Display the help message**: `task help`
-- **Alias for displaying the help message**: `task `
+- **Display the help message**: 
+```bash
+task help
+```
+- **Alias for displaying the help message**: 
+```bash
+task 
+```
 
 ### Task Priorities:
-- **Low**: `l`
+- **Low**: 
+`l`
 - **Medium**: `m`
 - **High**: `h`
 - **Urgent**: `u`
