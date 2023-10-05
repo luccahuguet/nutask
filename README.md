@@ -19,10 +19,14 @@ TODO: add demo GIF
 ## Usage 🛠️
 
 ### Displaying Tasks:
-- **Display the list of tasks**: `task ls`
+- **Display the list of tasks**: 
+```bash
+task ls
+```
 
 ### Adding and Modifying Tasks:
-- **Add a task (default priority is medium)**: ```bash
+- **Add a task (default priority is medium)**: 
+```bash
 task add [Your task description]
 ```
 - **Add a task, using all the options/flags**: 
