@@ -9,13 +9,13 @@ TODO: add demo GIF
 - **Simple Management**: Add, remove, list, and tick tasks as done seamlessly.
 - **Integrated with NuShell**: Use the power and flexibility of NuShell to manipulate tasks.
 - **Persistent**: Your tasks are stored securely in a `.tasks.nuon` file in your home directory.
-  
+\\
 ## Installation 💽
 1. Make sure you have [nushell](https://www.nushell.sh) installed 
 2. Clone the repository: `git clone https://github.com/luccahuguet/nutask.git`
 3. Add `use "path_to_repo\task.nu"` to your $nu.config-path or $nu.env-path
-4. You are done! 
-  
+4. You are done!
+   \\
 ## Usage 🛠️
 
 ### Displaying Tasks:
@@ -23,7 +23,6 @@ TODO: add demo GIF
 ```bash
 task ls
 ```
-
 ### Interacting with Tasks:
 **Add a task (with the default values)**: 
 ```bash
@@ -33,8 +32,8 @@ task add [Your task description]
 ```bash
 task add [Your task description] --pri [l/m/h/u] --proj [<string>] --due <string or date>
 ```
-  
 
+\\
 ### Interacting with Tasks:
 **Mark a task as done or not done**: 
 ```bash
@@ -48,8 +47,7 @@ task rm [index of the task]
 ```bash
 task purge
 ```
-
-  
+\\  
 ### Edit tasks:
 **Change the description of a task**: 
 ```bash
@@ -67,8 +65,8 @@ task due [index of the task] [<string or date>]
 ```bash
 task proj [index of the task] [<string>]
 ```
-  
 
+\\
 ### Help:
 **Display the help message**: 
 ```bash
@@ -78,20 +76,20 @@ task help
 ```bash
 task 
 ```
-  
+\\
 ### Task Priorities:
-- **Low**: 
-`l`
+- **Low**: `l`
 - **Medium**: `m`
 - **High**: `h`
 - **Urgent**: `u`
-  
+\\
 ## Roadmap 🛣️
 - [x] Task Prioritization: Tasks can now have different levels of priority.
 - [x] Enhanced Display: Mark done tasks as green, and color tasks by priority
 - [x] Due date: Add a due date option for each task
 - [x] Support for Projects: Separate your tasks into different projects
 - [ ] Backup & Archive: Safeguard your tasks with backup and archiving features.
-  
+
+\\
 ## Disclaimer
 - This is not an "official" package endorsed by the Nushell project (for now...)
