@@ -103,19 +103,18 @@ export def desc [
 
 export def due [
     index: int # The position of the task to switch its status
-    ...words: string # An array of strings that make up the task description
+    string_date: string # An array of strings that make up the task description
 ] {
-    let new_due_date = $words | str join ' '
-    update_task $index due $new_due_date
+    update_task $index due $string_date
     show
 }
 
 # Sets the project of a task based on its index.
 export def proj [
     index: int # The index of the task to change project
-    j: string # The project to set
+    proj: string # The project to set
 ] {
-    update_task $index proj $j
+    update_task $index proj $proj
     show
 }
 
