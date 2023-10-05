@@ -18,7 +18,7 @@ TODO: add demo GIF
    \\
 ## Usage 🛠️
 
-### Interacting with Tasks:
+### Task Management:
 **Add a task (with the default values)**: 
 ```bash
 task add [Your task description]
@@ -27,9 +27,6 @@ task add [Your task description]
 ```bash
 task add [Your task description] --pri [l/m/h/u] --proj [<string>] --due <string or date>
 ```
-
-\\
-### Interacting with Tasks:
 **Mark a task as done or not done**: 
 ```bash
 task tick [index of the task]
@@ -38,12 +35,9 @@ task tick [index of the task]
 ```bash
 task rm [index of the task]
 ```
-**Clear all completed tasks**: 
-```bash
-task purge
-```
 \\  
-### Edit tasks:
+\\  
+### Task Editing:
 **Change the description of a task**: 
 ```bash
 task desc [index of the task] [Your new task description]
@@ -62,7 +56,8 @@ task proj [index of the task] [<string>]
 ```
 
 \\
-### Displaying informations:
+\\  
+### View & Cleanup:
 **Display the list of tasks**: 
 ```bash
 task ls
@@ -70,6 +65,10 @@ task ls
 **Shows every task from a project**: 
 ```bash
 task lsproj <project>
+```
+**Clear all completed tasks**: 
+```bash
+task purge
 ```
 **Display the help message**: 
 ```bash
@@ -80,6 +79,7 @@ task help
 task 
 ```
 \\
+\\  
 ### Task Priorities:
 - **Low**: `l`
 - **Medium**: `m`
