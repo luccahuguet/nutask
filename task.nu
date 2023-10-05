@@ -141,7 +141,7 @@ export def help [] {
     let editing_cmds = [
         ["task desc <index> <description>",
         "⭘ \n    ⭘──▶ Edit a task's description based on its index. Ex: task desc 2 'Buy almond milk'"],
-        ["task pri <index> <priority>", "▶ Change the priority of a task. Ex: task priority 2 l"],
+        ["task pri <index> <priority>", "▶ Change the priority of a task. Ex: task pri 2 l"],
         ["task due <index> <due_date>", "▶ Edit a task's due date. Ex: task due 2 tomorrow"],
         ["task proj <index> <project>", "▶ Change the project of a task. Ex: task proj 2 work"],
     ]
