@@ -25,7 +25,7 @@ task add [Your task description]
 ```
 **Add a task, using all the options/flags**: 
 ```bash
-task add [Your task description] --pri [l/m/h/u] --proj [<string>] --due <string or date>
+task add [Your task description] --pri [l/m/h/u] --proj [string] --due [string or date]
 ```
 **Mark a task as done or not done**: 
 ```bash
@@ -34,9 +34,8 @@ task tick [index of the task]
 **Remove a specific task**: 
 ```bash
 task rm [index of the task]
-```
-\\  
-\\  
+```  
+   
 ### Task Editing:
 **Change the description of a task**: 
 ```bash
