@@ -53,9 +53,7 @@ task due [index of the task] [<string or date>]
 ```bash
 task proj [index of the task] [<string>]
 ```
-
-\\
-\\  
+   
 ### View & Cleanup:
 **Display the list of tasks**: 
 ```bash
@@ -77,14 +75,13 @@ task help
 ```bash
 task 
 ```
-\\
-\\  
+  
 ### Task Priorities:
 - **Low**: `l`
 - **Medium**: `m`
 - **High**: `h`
 - **Urgent**: `u`
-\\
+  
 ## Roadmap 🛣️
 - [x] Task Prioritization: Tasks can now have different levels of priority.
 - [x] Enhanced Display: Mark done tasks as green, and color tasks by priority
@@ -92,6 +89,6 @@ task
 - [x] Support for Projects: Separate your tasks into different projects
 - [ ] Backup & Archive: Safeguard your tasks with backup and archiving features.
 
-\\
+  
 ## Disclaimer
 - This is not an "official" package endorsed by the Nushell project (for now...)
