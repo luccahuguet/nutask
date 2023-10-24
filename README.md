@@ -27,6 +27,10 @@ task add [Your task description]
 ```bash
 task add [Your task description] --pri [l/m/h/u] --proj [string] --due [string or date]
 ```
+Example:
+```bash
+task add buy a house --pri h --proj life --due 11-05-2024
+```
 **Mark a task as done or not done**: 
 ```bash
 task tick [index of the task]
@@ -47,11 +51,11 @@ task pri [index of the task] [l/m/h/u]
 ```
 **Change the due date of a task**: 
 ```bash
-task due [index of the task] [<string or date>]
+task due [index of the task] [string or date]
 ```
 **Change the proj date of a task**: 
 ```bash
-task proj [index of the task] [<string>]
+task proj [index of the task] [string]
 ```
    
 ### View & Cleanup:
@@ -61,7 +65,7 @@ task ls
 ```
 **Shows every task from a project**: 
 ```bash
-task lsproj <project>
+task lsproj [project]
 ```
 **Clear all completed tasks**: 
 ```bash
