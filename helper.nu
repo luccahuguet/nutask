@@ -124,7 +124,6 @@ export def update_task [
 ] {
     let updated_task = list_tasks | get $index | upsert $property $value
     list_tasks | upsert $index $updated_task | sort_save
-    show
 }
 
 export def list_tasks [] {
