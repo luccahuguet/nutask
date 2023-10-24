@@ -15,7 +15,7 @@ TODO: add demo GIF
 2. Clone the repository: `git clone https://github.com/luccahuguet/nutask.git`
 3. Add `use "path_to_repo\task.nu"` to your $nu.config-path or $nu.env-path
 4. You are done!
-   \\
+  
 ## Usage 🛠️
 
 ### Task Management:
