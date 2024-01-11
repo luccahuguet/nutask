@@ -2,7 +2,7 @@
 
 Manage your tasks using the power of NuShell. Nutask is an intuitive, straight-forward task management system designed for those who love the command line.
 
-![tape](https://github.com/luccahuguet/nutask/assets/27565287/471476db-9bf4-4829-adc3-c04e9e7f7611)
+![tape](https://github.com/luccahuguet/nutask/assets/27565287/efa0e37c-8585-43b9-9a33-46e6a9eff99d)
 
 
 ## Features 🚀
