@@ -2,11 +2,11 @@
 
 Manage your tasks using the power of NuShell. Nutask is an intuitive, straight-forward task management system designed for those who love the command line.
 
-![tape](https://github.com/luccahuguet/nutask/assets/27565287/d3bbf374-fc27-4c8c-b576-c944786736bb)
+![tape](https://github.com/luccahuguet/nutask/assets/27565287/471476db-9bf4-4829-adc3-c04e9e7f7611)
 
 
 ## Features 🚀
-- **Simple Management**: Add, remove, list, and tick tasks as done seamlessly.
+- **Simple Management**: Add, remove, list, prioritize and tick tasks seamlessly.
 - **Integrated with NuShell**: Use the power and flexibility of NuShell to manipulate tasks.
 - **Persistent**: Your tasks are stored securely in a `.tasks.nuon` file in your home directory.
   
@@ -91,7 +91,6 @@ task
 - [x] Enhanced Display: Mark done tasks as green, and color tasks by priority
 - [x] Due date: Add a due date option for each task
 - [x] Support for Projects: Separate your tasks into different projects
-- [ ] Backup & Archive: Safeguard your tasks with backup and archiving features.
 
   
 ## Disclaimer
