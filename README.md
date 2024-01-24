@@ -2,20 +2,20 @@
 
 Manage your tasks using the power of NuShell. Nutask is an intuitive, straight-forward task management system designed for those who love the command line.
 
-TODO: add demo GIF
-![Demo GIF or screenshot if available](path-to-demo-image.gif)
+![tape](https://github.com/luccahuguet/nutask/assets/27565287/efa0e37c-8585-43b9-9a33-46e6a9eff99d)
+
 
 ## Features 🚀
-- **Simple Management**: Add, remove, list, and tick tasks as done seamlessly.
+- **Simple Management**: Add, remove, list, prioritize and tick tasks seamlessly.
 - **Integrated with NuShell**: Use the power and flexibility of NuShell to manipulate tasks.
 - **Persistent**: Your tasks are stored securely in a `.tasks.nuon` file in your home directory.
-\\
+  
 ## Installation 💽
 1. Make sure you have [nushell](https://www.nushell.sh) installed 
 2. Clone the repository: `git clone https://github.com/luccahuguet/nutask.git`
 3. Add `use "path_to_repo\task.nu"` to your $nu.config-path or $nu.env-path
 4. You are done!
-   \\
+  
 ## Usage 🛠️
 
 ### Task Management:
@@ -25,7 +25,11 @@ task add [Your task description]
 ```
 **Add a task, using all the options/flags**: 
 ```bash
-task add [Your task description] --pri [l/m/h/u] --proj [<string>] --due <string or date>
+task add [Your task description] --pri [l/m/h/u] --proj [string] --due [string or date]
+```
+Example:
+```bash
+task add buy a house --pri h --proj life --due 11-05-2024
 ```
 **Mark a task as done or not done**: 
 ```bash
@@ -34,9 +38,8 @@ task tick [index of the task]
 **Remove a specific task**: 
 ```bash
 task rm [index of the task]
-```
-\\  
-\\  
+```  
+   
 ### Task Editing:
 **Change the description of a task**: 
 ```bash
@@ -48,15 +51,13 @@ task pri [index of the task] [l/m/h/u]
 ```
 **Change the due date of a task**: 
 ```bash
-task due [index of the task] [<string or date>]
+task due [index of the task] [string or date]
 ```
 **Change the proj date of a task**: 
 ```bash
-task proj [index of the task] [<string>]
+task proj [index of the task] [string]
 ```
-
-\\
-\\  
+   
 ### View & Cleanup:
 **Display the list of tasks**: 
 ```bash
@@ -64,7 +65,7 @@ task ls
 ```
 **Shows every task from a project**: 
 ```bash
-task lsproj <project>
+task lsproj [project]
 ```
 **Clear all completed tasks**: 
 ```bash
@@ -78,21 +79,19 @@ task help
 ```bash
 task 
 ```
-\\
-\\  
+  
 ### Task Priorities:
 - **Low**: `l`
 - **Medium**: `m`
 - **High**: `h`
 - **Urgent**: `u`
-\\
+  
 ## Roadmap 🛣️
 - [x] Task Prioritization: Tasks can now have different levels of priority.
 - [x] Enhanced Display: Mark done tasks as green, and color tasks by priority
 - [x] Due date: Add a due date option for each task
 - [x] Support for Projects: Separate your tasks into different projects
-- [ ] Backup & Archive: Safeguard your tasks with backup and archiving features.
 
-\\
+  
 ## Disclaimer
 - This is not an "official" package endorsed by the Nushell project (for now...)
