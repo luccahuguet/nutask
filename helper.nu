@@ -1,11 +1,12 @@
 # Variables
-export const task_path = "~/.tasks.nuon"
+export const task_path = "/home/lucca/.tasks.nuon"
+# export def task_path [] { $env.HOME ++ "/.tasks.nuon" }
 export const list_of_priorities = ["l" "m" "h" "u"]
 
 export def sort_tasks [] { sort-by done priority -r age }
-export def sort_save [] { sort_tasks | save $task_path -f }
+export def sort_save [] { sort_tasks | collect | save $task_path -f }
 
-export def shorten_unit [input] {
+export def shorten_unit [input]: string -> string {
     match $input {
         "second" => { "s" }
         "minute" => { "m" }
@@ -38,7 +39,12 @@ export def shorten_any_date [number, unit, future] {
     let res = if ($number in ["a", "an"]) {
         "1" + (shorten_unit $unit)
     } else {
-        $number + (shorten_unit ($unit | str substring 0..(($unit | str length) - 1)))
+        print $"unit: ($unit)"
+        let $new_unit = $unit | str substring 0..(($unit | str length) - 2)
+        print $"new_unit: ($new_unit)"
+        let shorten_unit = shorten_unit $new_unit
+        print $"shorten_unit: ($shorten_unit)"
+        $number + $shorten_unit
     }
     if $future {"in " + $res} else { $res }
 }

@@ -68,7 +68,7 @@ export def purge [] {
 export def rm [
     index: int # The position of the task to be removed
 ] {
-    list_tasks | drop nth $index | save $task_path -f
+    list_tasks | drop nth $index | collect | save $task_path -f
     show
 }
 
