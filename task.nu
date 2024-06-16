@@ -60,7 +60,7 @@ export def priority [
 
 # Clears all completed tasks.
 export def purge [] {
-    list_tasks | where not done | save $task_path -f
+    list_tasks | where not done | collect | save $task_path -f
     show
 }
 
