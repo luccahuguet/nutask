@@ -30,8 +30,6 @@ export def parse_date [input] {
     } else { 
         {number: $fst, unit: $snd, future: false}
     }
-    # print $date.number
-    # print $date.unit
     shorten_any_date $date.number $date.unit $date.future
 }
 
@@ -39,11 +37,8 @@ export def shorten_any_date [number, unit, future] {
     let res = if ($number in ["a", "an"]) {
         "1" + (shorten_unit $unit)
     } else {
-        print $"unit: ($unit)"
         let $new_unit = $unit | str substring 0..(($unit | str length) - 2)
-        print $"new_unit: ($new_unit)"
         let shorten_unit = shorten_unit $new_unit
-        print $"shorten_unit: ($shorten_unit)"
         $number + $shorten_unit
     }
     if $future {"in " + $res} else { $res }
